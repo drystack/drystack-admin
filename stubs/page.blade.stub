@@ -1,0 +1,8 @@
+<x-dry-card>
+    <x-dry-row>
+        <x-dry-button primary>Crea nuovo</x-dry-button>
+    </x-dry-row>
+
+    <livewire:{{name}}-datatable />
+
+</x-dry-card>

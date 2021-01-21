@@ -1,0 +1,17 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+
+class {{name}}Page extends Component
+{
+    public $model = \App\Models\{{model}}::class;
+
+    public function render()
+    {
+        return view('{{view}}-page')
+            ->layout('drystack::layout', ['title' => '{{title}}']);
+    }
+}

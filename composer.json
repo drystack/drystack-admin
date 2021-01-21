@@ -1,0 +1,39 @@
+{
+    "name": "drystack/crud",
+    "authors": [
+        {
+            "name": "Lorenzo Cattaneo",
+            "email": "info@lorenzocattaneo.com"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "path",
+            "url": "../components"
+        },
+        {
+            "type": "vcs",
+            "url": "https://github.com/lorenzocattaneo/livewire-datatables"
+        }
+    ],
+    "require": {
+        "illuminate/contracts": "^8.0",
+        "illuminate/support": "^8.0",
+        "livewire/livewire": "^2.3",
+        "drystack/components": "dev-main",
+        "mediconesystems/livewire-datatables": "dev-master"
+
+    },
+    "autoload": {
+        "psr-4": {
+            "Drystack\\Crud\\": "src"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Drystack\\Crud\\CrudServiceProvider"
+            ]
+        }
+    }
+}
