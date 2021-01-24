@@ -5,13 +5,13 @@ namespace {{namespace}};
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
-class {{name}}Page extends Component
+class {{name}}PageIndex extends Component
 {
-    public $model = \App\Models\{{model}}::class;
+    public \App\Models\{{model}} $model;
 
     public function render()
     {
-        return view('{{view}}-page')
+        return view('{{view}}-page-index')
             ->layout('drystack::layout', ['title' => '{{title}}']);
     }
 }

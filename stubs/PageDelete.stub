@@ -1,0 +1,17 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+
+class {{name}}PageDelete extends Component
+{
+    public \App\Models\{{model}} $model;
+
+    public function render()
+    {
+        return view('{{view}}-page-delete')
+            ->layout('drystack::layout', ['title' => '{{title}}/Cancella']);
+    }
+}

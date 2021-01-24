@@ -63,7 +63,7 @@
                         <div class="table-row divide-x divide-neutral-200">
                             @foreach($this->columns as $index => $column)
                                 @if($hideable === 'inline')
-                                    @include('datatables::header-inline-hide', ['column' => $column, 'sort' => $sort])
+                                    @include('drystack::crud.header-inline-hide', ['column' => $column, 'sort' => $sort])
                                 @elseif($column['type'] === 'checkbox')
                                     <div class="relative table-cell h-12 w-48 overflow-hidden align-top px-6 py-3 border-b border-neutral-200 bg-neutral-50 text-left text-xs leading-4 font-medium text-neutral-500 uppercase tracking-wider flex items-center focus:outline-none">
                                         <div class="px-3 py-1 rounded @if(count($selected)) bg-secondary-400 @else bg-neutral-200 @endif text-white text-center">
@@ -71,7 +71,7 @@
                                         </div>
                                     </div>
                                 @else
-                                    @include('datatables::header-no-hide', ['column' => $column, 'sort' => $sort])
+                                    @include('drystack::crud.header-no-hide', ['column' => $column, 'sort' => $sort])
                                 @endif
                             @endforeach
                         </div>
@@ -108,7 +108,7 @@
                         </div>
                     @endif
                     @forelse($this->results as $result)
-                        <div class="table-row p-1 divide-x divide-neutral-100 {{ isset($result->checkbox_attribute) && in_array($result->checkbox_attribute, $selected) ? 'bg-secondary-100' : ($loop->even ? 'bg-white' : 'bg-white') }} hover:bg-neutral-100">
+                        <div class="table-row p-1 divide-x divide-neutral-100 {{ isset($result->checkbox_attribute) && in_array($result->checkbox_attribute, $selected) ? 'bg-secondary-100' : ($loop->even ? 'bg-white' : 'bg-neutral-50') }} hover:bg-neutral-100">
                             @foreach($this->columns as $column)
                                 @if($column['hidden'])
                                     @if($hideable === 'inline')

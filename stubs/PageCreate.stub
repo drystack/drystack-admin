@@ -1,0 +1,28 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+use Drystack\Crud\Traits\WithModelSave;
+
+class {{name}}PageCreate extends Component
+{
+    use WithModelSave;
+
+    public \App\Models\{{model}} $model;
+
+    protected $rules = [
+        //add validation rules for any bound attribute here
+    ];
+
+    public function mount() {
+        $this->model = new \App\Models\{{model}}();
+    }
+
+    public function render()
+    {
+        return view('{{view}}-page-create')
+            ->layout('drystack::layout', ['title' => '{{title}}/Crea']);
+    }
+}

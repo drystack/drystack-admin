@@ -1,5 +1,5 @@
 <x-dry-card>
-    <x-dry-row>
+    <x-dry-row class="justify-end">
         <x-dry-button primary>Crea nuovo</x-dry-button>
     </x-dry-row>
 

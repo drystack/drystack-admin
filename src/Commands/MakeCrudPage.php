@@ -29,7 +29,7 @@ class MakeCrudPage extends Command {
         }
 
         $view_path_laravel = substr($view_path, stripos($view_path, "views/") + 6);
-        $view_prefix = str_replace('/', '.', '$view_path_laravel');
+        $view_prefix = str_replace('/', '.', $view_path_laravel);
 
         $name = strtolower($this->argument('name'));
         $class = ucfirst($name);
@@ -39,23 +39,72 @@ class MakeCrudPage extends Command {
         $model = $this->option('model') ?? ucfirst($name);
         $view = $view_prefix . '.' . ($this->option('view') ?? $name);
 
-        $page = file_get_contents(__DIR__ . '/../../stubs/Page.stub');
+        $this->makePage("Index", $namespace, $class, $model, $view);
+        $this->makePage("Create", $namespace, $class, $model, $view);
+        $this->makePage("Read", $namespace, $class, $model, $view);
+        $this->makePage("Update", $namespace, $class, $model, $view);
+        $this->makePage("Delete", $namespace, $class, $model, $view);
+
+        $this->makeView("index", $name, $view_path);
+        $this->makeView("create", $name, $view_path);
+        $this->makeView("read", $name, $view_path);
+        $this->makeView("update", $name, $view_path);
+
+        $this->makeDatatable($class, $model, $namespace);
+
+        $page_name = "$namespace\\$class";
+        $routes = file_get_contents(base_path('routes/web.php'));
+        $routes = $this->addRoutes($routes, $page_name, [
+            "$name.index",
+            "$name.create",
+            "$name.read",
+            "$name.update",
+            "$name.delete",
+        ]);
+        file_put_contents(base_path('routes/web.php'), $routes);
+
+    }
+
+    protected function getPath($name)
+    {
+        $name = Str::replaceFirst($this->laravel->getNamespace(), '', $name);
+
+        return app_path(str_replace('\\', '/', $name).'.php') ;
+    }
+
+    protected function addRoutes(string $file, string $page_name, array $routes): string {
+        $file .= "\n";
+        foreach ($routes as $route) {
+            if (str_contains($file, $route)) continue;
+            $parts = explode(".", $route);
+            $action = ucfirst(end($parts));
+            $path = str_replace(".", "/", $route);
+            $file .= "Route::get('$path', {$page_name}Page{$action}::class)->name('$route');\n";
+        }
+        return $file;
+    }
+
+    protected function makePage(string $action, string $namespace, string $class, string $model, string $view) {
+        $page = file_get_contents(__DIR__ . "/../../stubs/Page$action.stub");
         $page = str_replace("{{namespace}}", $namespace, $page);
         $page = str_replace("{{name}}", $class, $page);
         $page = str_replace("{{title}}", $class, $page);
         $page = str_replace("{{model}}", $model, $page);
         $page = str_replace("{{view}}", $view, $page);
 
-        $page_name = "$namespace\\$class"."Page";
+        $page_name = "$namespace\\$class";
 
-        file_put_contents($this->getPath($page_name), $page);
+        file_put_contents($this->getPath($page_name . "Page$action"), $page);
+    }
 
-        $view_page = file_get_contents(__DIR__ . '/../../stubs/page.blade.stub');
+    protected function makeView(string $action, string $name, string $path) {
+        $view_page = file_get_contents(__DIR__ . "/../../stubs/page-$action.blade.stub");
         $view_page = str_replace("{{name}}", $name, $view_page);
 
-        file_put_contents($view_path . '/' . $name . "-page.blade.php" , $view_page);
+        file_put_contents($path . '/' . $name . "-page-$action.blade.php" , $view_page);
+    }
 
-
+    protected function makeDatatable(string $class, string $model, string $namespace) {
         $datatable = file_get_contents(__DIR__ . '/../../stubs/Datatable.stub');
         $datatable = str_replace("{{name}}", $class, $datatable);
         $datatable = str_replace("{{model}}", $model, $datatable);
@@ -66,10 +115,4 @@ class MakeCrudPage extends Command {
         file_put_contents($this->getPath($datatable_page_name), $datatable);
     }
 
-    protected function getPath($name)
-    {
-        $name = Str::replaceFirst($this->laravel->getNamespace(), '', $name);
-
-        return app_path(str_replace('\\', '/', $name).'.php') ;
-    }
 }

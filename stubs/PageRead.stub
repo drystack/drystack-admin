@@ -1,0 +1,17 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+
+class {{name}}PageRead extends Component
+{
+    public \App\Models\{{model}} $model;
+
+    public function render()
+    {
+        return view('{{view}}-page-read')
+            ->layout('drystack::layout', ['title' => '{{title}}/Visualizza']);
+    }
+}
