@@ -1,6 +1,9 @@
 <x-dry-card>
+    <x-dry-notification />
     <x-dry-row class="justify-end">
-        <x-dry-button primary>Crea nuovo</x-dry-button>
+        <x-dry-button primary>
+            <a href="{{ route('{{name}}.create') }}">Crea nuovo</a>
+        </x-dry-button>
     </x-dry-row>
 
     <livewire:{{name}}-datatable />
