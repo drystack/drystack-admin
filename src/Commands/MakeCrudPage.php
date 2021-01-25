@@ -6,7 +6,6 @@ namespace Drystack\Crud\Commands;
 
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
-use Symfony\Component\Console\Input\InputOption;
 
 class MakeCrudPage extends Command {
     protected $signature = 'drystack:crud:make {name} {--model=} {--view=}';
@@ -33,8 +32,6 @@ class MakeCrudPage extends Command {
 
         $name = strtolower($this->argument('name'));
         $class = ucfirst($name);
-
-        //$namespace .= "\\$class";
 
         $model = $this->option('model') ?? ucfirst($name);
         $view = $view_prefix . '.' . ($this->option('view') ?? $name);
@@ -85,7 +82,7 @@ class MakeCrudPage extends Command {
     }
 
     protected function makePage(string $action, string $namespace, string $class, string $model, string $view) {
-        $page = file_get_contents(__DIR__ . "/../../stubs/Page$action.stub");
+        $page = file_get_contents(__DIR__ . "/../../stubs/crud/Page$action.stub");
         $page = str_replace("{{namespace}}", $namespace, $page);
         $page = str_replace("{{name}}", $class, $page);
         $page = str_replace("{{title}}", $class, $page);
@@ -98,14 +95,14 @@ class MakeCrudPage extends Command {
     }
 
     protected function makeView(string $action, string $name, string $path) {
-        $view_page = file_get_contents(__DIR__ . "/../../stubs/page-$action.blade.stub");
+        $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/page-$action.blade.stub");
         $view_page = str_replace("{{name}}", $name, $view_page);
 
         file_put_contents($path . '/' . $name . "-page-$action.blade.php" , $view_page);
     }
 
     protected function makeDatatable(string $class, string $model, string $namespace) {
-        $datatable = file_get_contents(__DIR__ . '/../../stubs/Datatable.stub');
+        $datatable = file_get_contents(__DIR__ . '/../../stubs/crud/Datatable.stub');
         $datatable = str_replace("{{name}}", $class, $datatable);
         $datatable = str_replace("{{model}}", $model, $datatable);
         $datatable = str_replace("{{namespace}}", $namespace, $datatable);

@@ -1,0 +1,13 @@
+<x-column>
+    <x-notification />
+    <x-row class="justify-between mb-8 items-center">
+        <x-title :title=$title />
+        <x-button primary class="shadow">
+            <a href="{{ route('{{name}}.create') }}">Crea nuovo</a>
+        </x-button>
+    </x-row>
+
+    <x-card>
+        <livewire:{{name}}-datatable />
+    </x-card>
+</x-column>

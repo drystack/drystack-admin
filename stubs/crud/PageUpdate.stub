@@ -4,25 +4,24 @@ namespace {{namespace}};
 
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+
 use Drystack\Crud\Traits\WithModelSave;
 
-class {{name}}PageCreate extends Component
+class {{name}}PageUpdate extends Component
 {
     use WithModelSave;
 
     public \App\Models\{{model}} $model;
 
+    public string $title = "title.{{view}}.create"; //Key of translation string
+
     protected $rules = [
         //add validation rules for any bound attribute here
     ];
 
-    public function mount() {
-        $this->model = new \App\Models\{{model}}();
-    }
-
     public function render()
     {
-        return view('{{view}}-page-create')
-            ->layout('drystack::layout', ['title' => '{{title}}/Crea']);
+        return view('{{view}}-page-update')
+            ->layout('drystack::layout');
     }
 }

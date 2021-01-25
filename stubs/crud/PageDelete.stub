@@ -9,9 +9,11 @@ class {{name}}PageDelete extends Component
 {
     public \App\Models\{{model}} $model;
 
+    public string $title = "title.{{view}}.delete"; //Key of translation string
+
     public function render()
     {
         return view('{{view}}-page-delete')
-            ->layout('drystack::layout', ['title' => '{{title}}/Cancella']);
+            ->layout('drystack::layout');
     }
 }

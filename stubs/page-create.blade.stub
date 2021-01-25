@@ -1,5 +1,0 @@
-<x-dry-card>
-    <x-dry-form wire:submit.prevent="submit">
-
-    </x-dry-form>
-</x-dry-card>

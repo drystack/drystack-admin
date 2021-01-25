@@ -9,9 +9,11 @@ class {{name}}PageIndex extends Component
 {
     public \App\Models\{{model}} $model;
 
+    public string $title = "title.{{view}}.index"; //Key of translation string
+
     public function render()
     {
         return view('{{view}}-page-index')
-            ->layout('drystack::layout', ['title' => '{{title}}']);
+            ->layout('drystack::layout');
     }
 }
