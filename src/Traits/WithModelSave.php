@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Drystack\Crud\Traits;
+namespace Drystack\Admin\Traits;
 
 
 use Illuminate\Support\Facades\Route;

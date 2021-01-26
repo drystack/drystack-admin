@@ -1,6 +1,6 @@
 <?php
 
-namespace {{namespace}};
+namespace {{namespace}}\{{name}};
 
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;

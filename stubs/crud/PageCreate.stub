@@ -1,10 +1,10 @@
 <?php
 
-namespace {{namespace}};
+namespace {{namespace}}\{{name}};
 
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
-use Drystack\Crud\Traits\WithModelSave;
+use Drystack\Admin\Traits\WithModelSave;
 
 class {{name}}PageCreate extends Component
 {

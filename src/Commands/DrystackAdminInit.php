@@ -1,15 +1,15 @@
 <?php
 
 
-namespace Drystack\Crud\Commands;
+namespace Drystack\Admin\Commands;
 
 
 class DrystackAdminInit {
-    protected $signature = 'drystack:crud:init {name} {--model=} {--view=}';
+    protected $signature = 'drystack:crud:init';
 
-    protected $description = 'Setup a Drystack crud page';
+    protected $description = 'Init Drystack admin';
 
     public function handle() {
-
+        $this->callSilent('vendor:publish', ['--provider' => 'Laravel\Fortify\FortifyServiceProvider', '--force' => true]);
     }
 }

@@ -1,5 +1,5 @@
 {
-    "name": "drystack/crud",
+    "name": "drystack/drystack-admin",
     "authors": [
         {
             "name": "Lorenzo Cattaneo",
@@ -26,13 +26,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Drystack\\Crud\\": "src"
+            "Drystack\\Admin\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Drystack\\Crud\\CrudServiceProvider"
+                "Drystack\\Admin\\DrystackAdminServiceProvider"
             ]
         }
     }

@@ -1,13 +1,13 @@
 <?php
 
 
-namespace Drystack\Crud;
+namespace Drystack\Admin;
 
 
-use Drystack\Crud\Commands\MakeCrudPage;
+use Drystack\Admin\Commands\MakeCrudPage;
 use Illuminate\Support\ServiceProvider;
 
-class CrudServiceProvider extends ServiceProvider {
+class DrystackAdminServiceProvider extends ServiceProvider {
     public function boot() {
         if ($this->app->runningInConsole()) {
             $this->commands([

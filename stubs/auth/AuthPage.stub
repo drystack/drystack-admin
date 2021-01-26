@@ -1,25 +1,48 @@
 <?php
 
-namespace {{namespace}};
+namespace {{namespace}}\Auth;
 
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
 class AuthPage extends Component
 {
-    public \App\Models\{{model}} $model;
-
     public string $email = '';
-
     public string $password = '';
+    public bool $remember = false;
 
     public string $title = "title.auth.page"; //Key of translation string
 
     protected $rules = [
-        //add validation rules for any bound attribute here
+        'email' => 'required|string|email',
+        'password' => 'required|string',
+        'remember' => 'boolean'
     ];
 
     public function render() {
         return view('livewire.auth.auth')->layout('drystack::layout_guest');;
+    }
+
+    public function submit() {
+        $this->validate();
+        if (!$this->login()) return;
+        return redirect('dashboard');
+    }
+
+    protected function login(): bool
+    {
+        if (RateLimiter::tooManyAttempts($this->throttleKey(), 5)) {
+            session()->flash('message', __('auth.throttle'));
+            return false;
+        } else if (!Auth::attempt([$this->username, $this->password], $this->data('remember'))) {
+            session()->flash('message', __('auth.failed'));
+            return false;
+        }   
+        return true;
+    }
+
+    protected function throttleKey()
+    {
+        return Str::lower($this->email).'|'.request()->ip();
     }
 }

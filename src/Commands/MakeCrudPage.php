@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Drystack\Crud\Commands;
+namespace Drystack\Admin\Commands;
 
 
 use Illuminate\Console\Command;
