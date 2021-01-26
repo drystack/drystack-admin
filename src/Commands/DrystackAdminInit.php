@@ -5,8 +5,9 @@ namespace Drystack\Admin\Commands;
 
 use Drystack\Admin\Commands\Traits\HasLivewire;
 use Drystack\Admin\Commands\Traits\MakeFiles;
+use Illuminate\Console\Command;
 
-class DrystackAdminInit {
+class DrystackAdminInit extends Command{
 
     use HasLivewire, MakeFiles;
 
