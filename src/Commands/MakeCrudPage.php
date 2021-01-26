@@ -3,63 +3,41 @@
 
 namespace Drystack\Admin\Commands;
 
-
+use Drystack\Admin\Commands\Traits\HasLivewire;
+use Drystack\Admin\Commands\Traits\MakeFiles;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 class MakeCrudPage extends Command {
+    use HasLivewire, MakeFiles;
+
     protected $signature = 'drystack:crud:make {name} {--model=} {--view=}';
 
     protected $description = 'Setup a Drystack crud page';
 
     public function handle() {
-
-        $namespace = config('livewire.class_namespace');
-        $view_path = config('livewire.view_path');
-
-        if (empty($namespace)) {
-            $this->error("Livewire's class_namespace is not configured for your project. Please configure Livewire");
-            return -1;
-        }
-
-        if (empty($view_path)) {
-            $this->error("Livewire's view_path is not configured for your project. Please configure Livewire");
-            return -1;
-        }
-
-        $view_path_laravel = substr($view_path, stripos($view_path, "views/") + 6);
-        $view_prefix = str_replace('/', '.', $view_path_laravel);
+        $this->checkLivewireConfigured();
 
         $name = strtolower($this->argument('name'));
         $class = ucfirst($name);
 
+        $view_path_laravel = substr($this->view_path, stripos($this->view_path, "views/") + 6);
+        $view_prefix = str_replace('/', '.', "$view_path_laravel/$name");
+        
+        $this->namespace = $this->namespace . "\\$class";
+        $this->makeControllerAndViewFolders($this->namespace, $this->view_path . "/$name");
+
         $model = $this->option('model') ?? ucfirst($name);
+        $this->namespace .= "\\$model";
         $view = $view_prefix . '.' . ($this->option('view') ?? $name);
 
-        $this->makePage("Index", $namespace, $class, $model, $view);
-        $this->makePage("Create", $namespace, $class, $model, $view);
-        $this->makePage("Read", $namespace, $class, $model, $view);
-        $this->makePage("Update", $namespace, $class, $model, $view);
-        $this->makePage("Delete", $namespace, $class, $model, $view);
+        $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $this->namespace, $class, $model, $view);
+        $this->makeViews(["index", "create", "read", "update"], $name, $this->view_path);
 
-        $this->makeView("index", $name, $view_path);
-        $this->makeView("create", $name, $view_path);
-        $this->makeView("read", $name, $view_path);
-        $this->makeView("update", $name, $view_path);
+        $this->makeDatatable($class, $model, $this->namespace);
 
-        $this->makeDatatable($class, $model, $namespace);
-
-        $page_name = "$namespace\\$class";
-        $routes = file_get_contents(base_path('routes/web.php'));
-        $routes = $this->addRoutes($routes, $page_name, [
-            "$name.index",
-            "$name.create",
-            "$name.read",
-            "$name.update",
-            "$name.delete",
-        ]);
-        file_put_contents(base_path('routes/web.php'), $routes);
-
+        $page_name = "$this->namespace\\$class";
+        $this->addRoutes($name, $page_name, ["index", "create", "read", "update", "delete"]);
     }
 
     protected function getPath($name)
@@ -69,16 +47,37 @@ class MakeCrudPage extends Command {
         return app_path(str_replace('\\', '/', $name).'.php') ;
     }
 
-    protected function addRoutes(string $file, string $page_name, array $routes): string {
+    protected function getPathNoExtension($name)
+    {
+        $name = Str::replaceFirst($this->laravel->getNamespace(), '', $name);
+
+        return app_path(str_replace('\\', '/', $name)) ;
+    }
+
+    protected function addRoutes(string $name, string $page_name, array $routes) {
+        $file = file_get_contents(base_path('routes/web.php'));
+        if (!str_contains($file, "require __DIR__.'/drystack.php';")) {
+            $file .= "\n";
+            $file .= "require __DIR__ . '/drystack.php';";
+            file_put_contents(base_path('routes/web.php'), $file);
+        }
+        $file = file_get_contents(base_path('routes/drystack.php'));
         $file .= "\n";
         foreach ($routes as $route) {
+            $route .= "$name.$route";
             if (str_contains($file, $route)) continue;
             $parts = explode(".", $route);
             $action = ucfirst(end($parts));
             $path = str_replace(".", "/", $route);
             $file .= "Route::get('$path', {$page_name}Page{$action}::class)->name('$route');\n";
         }
-        return $file;
+        file_put_contents(base_path('routes/drystack.php'), $file);
+    }
+
+    protected function makePages(array $actions, string $namespace, string $class, string $model, string $view) {
+        foreach ($actions as $action) {
+            $this->makePage($action, $namespace, $class, $model, $view);
+        }
     }
 
     protected function makePage(string $action, string $namespace, string $class, string $model, string $view) {
@@ -93,6 +92,12 @@ class MakeCrudPage extends Command {
 
         file_put_contents($this->getPath($page_name . "Page$action"), $page);
     }
+
+    protected function makeViews(array $actions, string $name, string $path) {
+        foreach ($actions as $action) {
+            $this->makeView($action, $name, $path);
+        }
+    } 
 
     protected function makeView(string $action, string $name, string $path) {
         $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/page-$action.blade.stub");
