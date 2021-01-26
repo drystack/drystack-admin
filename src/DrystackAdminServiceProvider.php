@@ -3,7 +3,7 @@
 
 namespace Drystack\Admin;
 
-
+use Drystack\Admin\Commands\DrystackAdminInit;
 use Drystack\Admin\Commands\MakeCrudPage;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,6 +15,7 @@ class DrystackAdminServiceProvider extends ServiceProvider {
     public function boot() {
         if ($this->app->runningInConsole()) {
             $this->commands([
+                DrystackAdminInit::class,
                 MakeCrudPage::class
             ]);
             $this->publishes([
