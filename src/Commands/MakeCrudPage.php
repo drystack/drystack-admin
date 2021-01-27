@@ -23,12 +23,12 @@ class MakeCrudPage extends Command {
 
         $view_path_laravel = substr($this->view_path, stripos($this->view_path, "views/") + 6);
         $view_prefix = str_replace('/', '.', "$view_path_laravel/$name");
-        
+
         $this->namespace = $this->namespace . "\\$class";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path . "/$name");
 
         $model = $this->option('model') ?? ucfirst($name);
-        $this->namespace .= "\\$model";
+
         $view = $view_prefix . '.' . ($this->option('view') ?? $name);
 
         $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $this->namespace, $class, $model, $view);
@@ -36,7 +36,7 @@ class MakeCrudPage extends Command {
 
         $this->makeDatatable($class, $model, $this->namespace);
 
-        $page_name = "$this->namespace\\$class";
+        $page_name = "$this->namespace";
         $this->addRoutes($name, $page_name, ["index", "create", "read", "update", "delete"]);
     }
 
@@ -58,10 +58,9 @@ class MakeCrudPage extends Command {
         $file = file_get_contents(base_path('routes/drystack.php'));
         $file .= "\n";
         foreach ($routes as $route) {
+            $action = ucfirst($route);
             $route .= "$name.$route";
             if (str_contains($file, $route)) continue;
-            $parts = explode(".", $route);
-            $action = ucfirst(end($parts));
             $path = str_replace(".", "/", $route);
             $file .= "Route::get('$path', {$page_name}Page{$action}::class)->middleware(['auth'])->name('$route');\n";
         }
@@ -91,7 +90,7 @@ class MakeCrudPage extends Command {
         foreach ($actions as $action) {
             $this->makeView($action, $name, $path);
         }
-    } 
+    }
 
     protected function makeView(string $action, string $name, string $path) {
         $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/page-$action.blade.stub");
@@ -110,5 +109,4 @@ class MakeCrudPage extends Command {
 
         file_put_contents($this->getPath($datatable_page_name), $datatable);
     }
-
 }
