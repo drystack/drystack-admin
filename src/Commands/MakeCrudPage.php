@@ -36,7 +36,7 @@ class MakeCrudPage extends Command {
 
         $this->makeDatatable($class, $model, $this->namespace);
 
-        $page_name = "$this->namespace";
+        $page_name = "$this->namespace\\$class";
         $this->addRoutes($name, $page_name, ["index", "create", "read", "update", "delete"]);
     }
 
@@ -59,7 +59,7 @@ class MakeCrudPage extends Command {
         $file .= "\n";
         foreach ($routes as $route) {
             $action = ucfirst($route);
-            $route .= "$name.$route";
+            $route = "$name.$route";
             if (str_contains($file, $route)) continue;
             $path = str_replace(".", "/", $route);
             $file .= "Route::get('$path', {$page_name}Page{$action}::class)->middleware(['auth'])->name('$route');\n";
@@ -81,7 +81,7 @@ class MakeCrudPage extends Command {
         $page = str_replace("{{model}}", $model, $page);
         $page = str_replace("{{view}}", $view, $page);
 
-        $page_name = "$namespace";
+        $page_name = "$namespace\\$class";
 
         file_put_contents($this->getPath($page_name . "Page$action"), $page);
     }
@@ -105,7 +105,7 @@ class MakeCrudPage extends Command {
         $datatable = str_replace("{{model}}", $model, $datatable);
         $datatable = str_replace("{{namespace}}", $namespace, $datatable);
 
-        $datatable_page_name = "$namespace"."Datatable";
+        $datatable_page_name = "$namespace\\$model"."Datatable";
 
         file_put_contents($this->getPath($datatable_page_name), $datatable);
     }

@@ -8,6 +8,6 @@
     </x-row>
 
     <x-card>
-        <livewire:{{name}}-datatable />
+        <livewire:{{name}}.{{name}}-datatable />
     </x-card>
 </x-column>
