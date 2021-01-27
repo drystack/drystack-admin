@@ -24,7 +24,7 @@ class {{name}}PageCreate extends Component
 
     public function render()
     {
-        return view('{{view}}-page-create')
+        return view('{{view}}.{{view}}-page-create')
             ->layout('drystack::layout');
     }
 }

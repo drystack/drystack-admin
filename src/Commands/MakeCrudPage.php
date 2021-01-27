@@ -32,7 +32,7 @@ class MakeCrudPage extends Command {
         $view = $view_prefix . '.' . ($this->option('view') ?? $name);
 
         $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $this->namespace, $class, $model, $view);
-        $this->makeViews(["index", "create", "read", "update"], $name, $this->view_path);
+        $this->makeViews(["index", "create", "read", "update"], $name, $this->view_path . "/$name");
 
         $this->makeDatatable($class, $model, $this->namespace);
 

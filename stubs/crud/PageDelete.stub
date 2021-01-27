@@ -13,7 +13,7 @@ class {{name}}PageDelete extends Component
 
     public function render()
     {
-        return view('{{view}}-page-delete')
+        return view('{{view}}.{{view}}-page-delete')
             ->layout('drystack::layout');
     }
 }
