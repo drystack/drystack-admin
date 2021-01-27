@@ -79,7 +79,7 @@ class MakeCrudPage extends Command {
         $page = str_replace("{{name}}", $class, $page);
         $page = str_replace("{{title}}", $class, $page);
         $page = str_replace("{{model}}", $model, $page);
-        $page = str_replace("{{view}}", $view, $page);
+        $page = str_replace("{{view}}", strtolower($class), $page);
 
         $page_name = "$namespace\\$class";
 
