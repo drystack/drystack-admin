@@ -39,7 +39,7 @@ class MakeAuth extends Command {
         $this->addRoutes([
             "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
             "forgot-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage'],
-            "reset-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage'],
+            "reset-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}/{email}'],
             "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->namespace . '\\LogoutPage'],
             "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage']
         ]);
@@ -85,7 +85,7 @@ class MakeAuth extends Command {
             $protected_middleware = $protected ? "->middleware(['auth'])" : "->middleware(['guest'])";
             if (str_contains($file, $route)) continue;
             $action = $details['action'];
-            $path = str_replace(".", "/", $route);
+            $path = $details['path'] ?? str_replace(".", "/", $route);
             $file .= "Route::$method('$path', {$action}::class){$protected_middleware}->name('$route');\n";
         }
         file_put_contents(base_path('routes/drystack.php'), $file);
