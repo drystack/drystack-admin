@@ -28,8 +28,8 @@ class DrystackAdminInit extends Command{
         $this->view_path = $this->view_path . "/auth";
         $this->namespace = $this->namespace . "\\Auth";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
-
-        copy(__DIR__ . '/../../stubs/auth/auth.stub', $this->view_path . "/auth.blade.blade.php");
+        
+        copy(__DIR__ . '/../../stubs/auth/auth.stub', $this->view_path . "/auth.blade.php");
         copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->view_path . "/forgot-password.blade.php");
         copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
 
