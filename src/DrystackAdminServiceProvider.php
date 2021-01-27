@@ -5,6 +5,7 @@ namespace Drystack\Admin;
 
 use Drystack\Admin\Commands\DrystackAdminInit;
 use Drystack\Admin\Commands\MakeCrudPage;
+use Drystack\Admin\Commands\MakeAuth;
 use Illuminate\Support\ServiceProvider;
 
 class DrystackAdminServiceProvider extends ServiceProvider {
@@ -16,7 +17,8 @@ class DrystackAdminServiceProvider extends ServiceProvider {
         if ($this->app->runningInConsole()) {
             $this->commands([
                 DrystackAdminInit::class,
-                MakeCrudPage::class
+                MakeCrudPage::class,
+                MakeAuth::class
             ]);
             $this->publishes([
                 __DIR__.'/../resources/lang' => resource_path('lang/vendor/drystack'),
