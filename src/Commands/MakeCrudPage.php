@@ -11,12 +11,12 @@ use Illuminate\Support\Str;
 class MakeCrudPage extends Command {
     use HasLivewire, MakeFiles;
 
-    protected $signature = 'drystack:crud:make {name} {--model=} {--view=}';
+    protected $signature = 'drystack:admin:crud {name} {--model=} {--view=}';
 
     protected $description = 'Setup a Drystack crud page';
 
     public function handle() {
-        $this->checkLivewireConfigured();
+        if ($this->checkLivewireConfigured() == -1) return -1;
 
         $name = strtolower($this->argument('name'));
         $class = ucfirst($name);

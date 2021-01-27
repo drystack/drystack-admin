@@ -11,16 +11,20 @@ class DrystackAdminInit extends Command{
 
     use HasLivewire, MakeFiles;
 
-    protected $signature = 'drystack:crud:init';
+    protected $signature = 'drystack:admin:init';
 
     protected $description = 'Init Drystack admin';
 
     public function handle() {
+        $this->callSilent('vendor:publish', ['--tag' => 'drystack-compiled-assets', '--force' => true]);
+        $this->callSilent('vendor:publish', ['--tag' => 'drystack-menu', '--force' => true]);
         $this->callSilent('vendor:publish', ['--provider' => 'Laravel\Fortify\FortifyServiceProvider', '--force' => true]);
         $this->callSilent('vendor:publish', ['--tag' => 'drystack-lang', '--force' => true]);
         $this->callSilent('vendor:publish', ['--tag' => 'drystack-config', '--force' => true]);
+        $this->call('livewire:publish', ['--config']);
 
-        $this->checkLivewireConfigured();
+        if ($this->checkLivewireConfigured() == -1) return -1;
+        
         $this->view_path = $this->view_path . "/auth";
         $this->namespace = $this->namespace . "\\Auth";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);

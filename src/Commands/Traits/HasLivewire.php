@@ -6,8 +6,8 @@ namespace Drystack\Admin\Commands\Traits;
 
 trait HasLivewire {
 
-    public string $namespace;
-    public string $view_path;
+    public string $namespace = '';
+    public string $view_path = '';
 
     public function checkLivewireConfigured() {
         if (empty(config('livewire.class_namespace'))) {
