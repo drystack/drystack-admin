@@ -25,18 +25,18 @@ class MakeAuth extends Command {
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
         $this->makeControllerAndViewFolders($dash_namespace, $dash_view_path);
         
-        copy(__DIR__ . '/../../stubs/auth/auth.stub', $this->view_path . "/auth.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/login.stub', $this->view_path . "/login.blade.php");
         copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->view_path . "/forgot-password.blade.php");
         copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
         copy(__DIR__ . '/../../stubs/dashboard/dashboard.stub', $dash_view_path . "/dashboard.blade.php");
 
         $this->makePages(["LoginPage", "ForgotPasswordPage", "ResetPasswordPage"], $this->namespace, "Auth");
         $this->makePage("DashboardPage", $dash_namespace, "Dashboard", 'dashboard');
-        $this->makeRoutes([
-            "login" => ['method' => 'get', 'protected' => false],
-            "forgot-password" => ['method' => 'get', 'protected' => false],
-            "reset-password" => ['method' => 'get', 'protected' => false],
-            "dashboard" => ['method' => 'get', 'protected' => true]
+        $this->addRoutes([
+            "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
+            "forgot-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage'],
+            "reset-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage'],
+            "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage']
         ]);
     }
 
@@ -64,8 +64,7 @@ class MakeAuth extends Command {
             $protected = $details['protected'];
             $protected_middleware = $protected ? "->middleware(['auth'])" : "";
             if (str_contains($file, $route)) continue;
-            $parts = explode(".", $route);
-            $action = ucfirst(end($parts));
+            $action = $details['action'];
             $path = str_replace(".", "/", $route);
             $file .= "Route::$method('$path', {$action}Page::class){$protected_middleware}->name('$route');\n";
         }
