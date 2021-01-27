@@ -18,6 +18,9 @@ class MakeCrudPage extends Command {
     public function handle() {
         if ($this->checkLivewireConfigured() == -1) return -1;
 
+        chmod($this->view_path, 0755);
+        chmod($this->getPathNoExtension($this->namespace), 0755);
+        
         $name = strtolower($this->argument('name'));
         $class = ucfirst($name);
 

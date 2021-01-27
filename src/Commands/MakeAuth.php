@@ -18,8 +18,8 @@ class MakeAuth extends Command {
     public function handle() {
         if ($this->checkLivewireConfigured() == -1) return -1;
         
-        chmod($this->view_path, 755);
-        chmod($this->getPath($this->namespace), 755);
+        chmod($this->view_path, 0755);
+        chmod($this->getPathNoExtension($this->namespace), 0755);
 
         $this->view_path = $this->view_path . "/auth";
         $this->namespace = $this->namespace . "\\Auth";
