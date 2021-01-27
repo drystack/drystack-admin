@@ -17,5 +17,5 @@ return [
     'User' => 'Utente',
     'Users' => 'Utenti',
 
-
+    'title.dashboard' => 'Dashboard'
 ];

@@ -18,9 +18,6 @@ class MakeCrudPage extends Command {
     public function handle() {
         if ($this->checkLivewireConfigured() == -1) return -1;
 
-        chmod($this->view_path, 0755);
-        chmod($this->getPathNoExtension($this->namespace), 0755);
-        
         $name = strtolower($this->argument('name'));
         $class = ucfirst($name);
 
@@ -58,12 +55,6 @@ class MakeCrudPage extends Command {
     }
 
     protected function addRoutes(string $name, string $page_name, array $routes) {
-        $file = file_get_contents(base_path('routes/web.php'));
-        if (!str_contains($file, "require __DIR__.'/drystack.php';")) {
-            $file .= "\n";
-            $file .= "require __DIR__ . '/drystack.php';";
-            file_put_contents(base_path('routes/web.php'), $file);
-        }
         $file = file_get_contents(base_path('routes/drystack.php'));
         $file .= "\n";
         foreach ($routes as $route) {
@@ -72,7 +63,7 @@ class MakeCrudPage extends Command {
             $parts = explode(".", $route);
             $action = ucfirst(end($parts));
             $path = str_replace(".", "/", $route);
-            $file .= "Route::get('$path', {$page_name}Page{$action}::class)->name('$route');\n";
+            $file .= "Route::get('$path', {$page_name}Page{$action}::class)->middleware(['auth'])->name('$route');\n";
         }
         file_put_contents(base_path('routes/drystack.php'), $file);
     }
@@ -91,7 +82,7 @@ class MakeCrudPage extends Command {
         $page = str_replace("{{model}}", $model, $page);
         $page = str_replace("{{view}}", $view, $page);
 
-        $page_name = "$namespace\\$class";
+        $page_name = "$namespace";
 
         file_put_contents($this->getPath($page_name . "Page$action"), $page);
     }
@@ -115,7 +106,7 @@ class MakeCrudPage extends Command {
         $datatable = str_replace("{{model}}", $model, $datatable);
         $datatable = str_replace("{{namespace}}", $namespace, $datatable);
 
-        $datatable_page_name = "$namespace\\$class"."Datatable";
+        $datatable_page_name = "$namespace"."Datatable";
 
         file_put_contents($this->getPath($datatable_page_name), $datatable);
     }

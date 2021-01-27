@@ -1,0 +1,15 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+
+class AuthPage extends Component
+{
+    public string $title = 'title.dashboard'; //see translations key title.dashboard
+
+    public function render() {
+        return view('livewire.dashboard.dashboard')->layout('drystack::layout');;
+    }
+}
