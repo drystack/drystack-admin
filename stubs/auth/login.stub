@@ -1,4 +1,5 @@
 <x-center>
+    <x-notification />
     <div class="max-w-sm flex flex-1">
         <x-card color="primary">
             @if(config('drystack.logo') != null)

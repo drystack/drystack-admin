@@ -3,9 +3,13 @@
 
 namespace Drystack\Admin\Commands;
 
+use Database\Factories\UserFactory;
 use Drystack\Admin\Commands\Traits\HasLivewire;
 use Drystack\Admin\Commands\Traits\MakeFiles;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\Crypt;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class MakeAuth extends Command {
@@ -17,14 +21,14 @@ class MakeAuth extends Command {
 
     public function handle() {
         if ($this->checkLivewireConfigured() == -1) return -1;
-        
+
         $dash_namespace = $this->namespace . "\\Dashboard";
         $dash_view_path = $this->view_path . "/dashboard";
         $this->view_path = $this->view_path . "/auth";
         $this->namespace = $this->namespace . "\\Auth";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
         $this->makeControllerAndViewFolders($dash_namespace, $dash_view_path);
-        
+
         copy(__DIR__ . '/../../stubs/auth/login.stub', $this->view_path . "/login.blade.php");
         copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->view_path . "/forgot-password.blade.php");
         copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
@@ -38,9 +42,24 @@ class MakeAuth extends Command {
             "reset-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage'],
             "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage']
         ]);
+
+        $this->info("Create admin user");
+        $name = $this->ask("Insert admin name:", "Administrator");
+        $email = $this->ask("Insert email:", null);
+        $password = $this->ask("Insert password:", null);
+
+        $user = [
+            'name' => $name,
+            'email' => $email,
+            'email_verified_at' => now(),
+            'password' => Hash::make($password),
+            'remember_token' => Str::random(10),
+        ];
+
+        DB::table('users')->insert($user);
     }
 
-    
+
     protected function makePages(array $actions, string $namespace, string $class) {
         foreach ($actions as $action) {
             $this->makePage($action, $namespace, $class);
