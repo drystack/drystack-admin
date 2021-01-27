@@ -34,7 +34,7 @@ class MakeAuth extends Command {
         copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
         copy(__DIR__ . '/../../stubs/dashboard/dashboard.stub', $dash_view_path . "/dashboard.blade.php");
 
-        $this->makePages(["LoginPage", "ForgotPasswordPage", "ResetPasswordPage"], $this->namespace, "Auth");
+        $this->makePages(["LoginPage", "ForgotPasswordPage", "ResetPasswordPage", "LogoutPage"], $this->namespace, "Auth");
         $this->makePage("DashboardPage", $dash_namespace, "Dashboard", 'dashboard');
         $this->addRoutes([
             "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
