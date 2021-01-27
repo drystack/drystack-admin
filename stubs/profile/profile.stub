@@ -1,0 +1,14 @@
+<x-column>
+    <x-notification />
+    <x-row class="justify-between mb-8 items-center max-w-screen-xl">
+        <x-title :title=$title />
+    </x-row>
+
+    <x-card>
+        <x-form wire:submit.prevent="submit">
+            <x-input field="model.name" label="{{__('Name')}}" />
+        </x-form>
+    </x-card>
+</x-column>
+
+

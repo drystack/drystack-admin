@@ -1,0 +1,30 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
+use Livewire\Component;
+
+use Drystack\Admin\Traits\WithModelSave;
+
+class ProfilePage extends Component
+{
+    use WithModelSave;
+
+    public \App\Models\User $model;
+
+    public string $title = 'title.profile'; //see translations key title.dashboard
+
+    protected $rules = [
+        'name' => 'required|string'
+    ];
+
+    public function mount() {
+        $this->model = Auth::user();
+    }
+
+    public function render() {
+        return view('livewire.profile.profile')->layout('drystack::layout');;
+    }
+}

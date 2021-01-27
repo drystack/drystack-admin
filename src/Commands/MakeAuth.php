@@ -24,24 +24,30 @@ class MakeAuth extends Command {
 
         $dash_namespace = $this->namespace . "\\Dashboard";
         $dash_view_path = $this->view_path . "/dashboard";
+        $profile_namespace = $this->namespace . "\\Profile";
+        $profile_view_path = $this->view_path . "/profile";
         $this->view_path = $this->view_path . "/auth";
         $this->namespace = $this->namespace . "\\Auth";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
         $this->makeControllerAndViewFolders($dash_namespace, $dash_view_path);
+        $this->makeControllerAndViewFolders($profile_namespace, $profile_view_path);
 
         copy(__DIR__ . '/../../stubs/auth/login.stub', $this->view_path . "/login.blade.php");
         copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->view_path . "/forgot-password.blade.php");
         copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
         copy(__DIR__ . '/../../stubs/dashboard/dashboard.stub', $dash_view_path . "/dashboard.blade.php");
+        copy(__DIR__ . '/../../stubs/profile/profile.stub', $profile_view_path . "/profile.blade.php");
 
         $this->makePages(["LoginPage", "ForgotPasswordPage", "ResetPasswordPage", "LogoutPage"], $this->namespace, "Auth");
         $this->makePage("DashboardPage", $dash_namespace, "Dashboard", 'dashboard');
+        $this->makePage("ProfilePage", $profile_namespace, "Profile", 'profile');
         $this->addRoutes([
             "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
             "password.forgot" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage', 'path' => 'forgot-password'],
             "password.reset" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}'],
             "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->namespace . '\\LogoutPage'],
-            "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage']
+            "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage'],
+            "profile" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\ProfilePage']
         ]);
 
         $this->info("Create admin user");
