@@ -38,8 +38,8 @@ class MakeAuth extends Command {
         $this->makePage("DashboardPage", $dash_namespace, "Dashboard", 'dashboard');
         $this->addRoutes([
             "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
-            "forgot-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage'],
-            "reset-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}/{email}'],
+            "password.forgot" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage', 'path' => 'forgot-password'],
+            "password.reset" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}'],
             "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->namespace . '\\LogoutPage'],
             "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage']
         ]);
