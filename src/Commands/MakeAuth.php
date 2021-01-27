@@ -47,7 +47,7 @@ class MakeAuth extends Command {
             "password.reset" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}'],
             "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->namespace . '\\LogoutPage'],
             "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage'],
-            "profile" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\ProfilePage']
+            "profile" => ['method' => 'get', 'protected' => true, 'action' => $profile_namespace . '\\ProfilePage']
         ]);
 
         $this->info("Create admin user");
