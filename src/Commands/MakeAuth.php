@@ -40,6 +40,7 @@ class MakeAuth extends Command {
             "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
             "forgot-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage'],
             "reset-password" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage'],
+            "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->namespace . '\\LogoutPage'],
             "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage']
         ]);
 
@@ -81,7 +82,7 @@ class MakeAuth extends Command {
         foreach ($routes as $route => $details) {
             $method = $details['method'];
             $protected = $details['protected'];
-            $protected_middleware = $protected ? "->middleware(['auth'])" : "";
+            $protected_middleware = $protected ? "->middleware(['auth'])" : "->middleware(['guest'])";
             if (str_contains($file, $route)) continue;
             $action = $details['action'];
             $path = str_replace(".", "/", $route);
