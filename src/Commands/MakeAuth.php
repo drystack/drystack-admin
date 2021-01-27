@@ -8,7 +8,7 @@ use Drystack\Admin\Commands\Traits\MakeFiles;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
-class MakeCrudPage extends Command {
+class MakeAuth extends Command {
     use HasLivewire, MakeFiles;
 
     protected $signature = 'drystack:admin:auth';
@@ -20,7 +20,7 @@ class MakeCrudPage extends Command {
         
         chmod($this->view_path, 755);
         chmod($this->getPath($this->namespace), 755);
-        
+
         $this->view_path = $this->view_path . "/auth";
         $this->namespace = $this->namespace . "\\Auth";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
