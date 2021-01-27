@@ -5,7 +5,7 @@ namespace {{namespace}};
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
-class AuthPage extends Component
+class DashboardPage extends Component
 {
     public string $title = 'title.dashboard'; //see translations key title.dashboard
 

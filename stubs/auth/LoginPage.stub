@@ -5,7 +5,7 @@ namespace {{namespace}};
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
 
-class AuthPage extends Component
+class LoginPage extends Component
 {
     public string $email = '';
     public string $password = '';

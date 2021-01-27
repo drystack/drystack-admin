@@ -51,9 +51,9 @@ class MakeAuth extends Command {
         $page = file_get_contents(__DIR__ . "/../../stubs/$folder/$action.stub");
         $page = str_replace("{{namespace}}", $namespace, $page);
 
-        $page_name = "$namespace\\$class";
+        $page_name = "$namespace\\$action";
 
-        file_put_contents($this->getPath($page_name . "$action"), $page);
+        file_put_contents($this->getPath($page_name), $page);
     }
 
     protected function addRoutes(array $routes) {
@@ -66,7 +66,7 @@ class MakeAuth extends Command {
             if (str_contains($file, $route)) continue;
             $action = $details['action'];
             $path = str_replace(".", "/", $route);
-            $file .= "Route::$method('$path', {$action}Page::class){$protected_middleware}->name('$route');\n";
+            $file .= "Route::$method('$path', {$action}::class){$protected_middleware}->name('$route');\n";
         }
         file_put_contents(base_path('routes/drystack.php'), $file);
     }
