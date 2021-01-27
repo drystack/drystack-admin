@@ -8,10 +8,10 @@ use Illuminate\Support\Str;
 trait MakeFiles {
     protected function makeControllerAndViewFolders($namespace, $view_path) {
         if (!is_dir($this->getPathNoExtension($namespace))) {
-            mkdir($this->getPathNoExtension($namespace), 655);
+            mkdir($this->getPathNoExtension($namespace), 755, true);
         }
         if (!is_dir($view_path)) {
-            mkdir($view_path, 655);
+            mkdir($view_path, 755, true);
         }
     }
 

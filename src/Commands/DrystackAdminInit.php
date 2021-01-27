@@ -21,7 +21,7 @@ class DrystackAdminInit extends Command{
         $this->callSilent('vendor:publish', ['--provider' => 'Laravel\Fortify\FortifyServiceProvider', '--force' => true]);
         $this->callSilent('vendor:publish', ['--tag' => 'drystack-lang', '--force' => true]);
         $this->callSilent('vendor:publish', ['--tag' => 'drystack-config', '--force' => true]);
-        $this->call('livewire:publish', ['--config']);
+        $this->callSilent('livewire:publish', ['--config' => '']);
 
         if ($this->checkLivewireConfigured() == -1) return -1;
         
@@ -29,9 +29,9 @@ class DrystackAdminInit extends Command{
         $this->namespace = $this->namespace . "\\Auth";
         $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
 
-        copy(__DIR__ . '/../../stubs/auth/auth.blade.stub', $this->view_path . "/auth.blade.php");
-        copy(__DIR__ . '/../../stubs/auth/forgot-password.blade.stub', $this->view_path . "/forgot-password.blade.php");
-        copy(__DIR__ . '/../../stubs/auth/reset-password.blade.stub', $this->view_path . "/reset-password.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/auth.stub', $this->view_path . "/auth.blade.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->view_path . "/forgot-password.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
 
         $this->makePages(["AuthPage", "ForgotPasswordPage", "ResetPasswordPage"], $this->namespace, "Auth");
     }
