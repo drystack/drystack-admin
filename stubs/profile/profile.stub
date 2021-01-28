@@ -10,12 +10,12 @@
         <x-row class="grid grid-cols-3 gap-6">
             <x-column class="col-span-1">
                 <h3 class="font-bold mb-4 text-lg text-neutral-600">{{ __('profile.edit.title') }}</h3>
-                <span class="text-neutral-500">{{ __('profile.edit.description') }}</span>
+                <span class="text-neutral-500">{{ __('drystack::drystack.profile.edit.description') }}</span>
             </x-column>
             <x-card class="col-span-2">
                 <x-form wire:submit.prevent="submit">
-                    <x-input field="model.name" label="{{__('Name')}}"/>
-                    <x-input field="model.email" label="{{__('Email')}}"/>
+                    <x-input field="model.name" label="{{__('drystack::drystack.auth.name')}}"/>
+                    <x-input field="model.email" label="{{__('drystack::drystack.auth.email')}}"/>
                 </x-form>
             </x-card>
         </x-row>
@@ -26,10 +26,10 @@
                 <span class="text-neutral-500">{{ __('profile.password.description') }}</span>
             </x-column>
             <x-card class="col-span-2">
-                <x-form wire:submit.prevent="submit">
-                    <x-input field="current_password" label="{{__('Current password')}}"/>
-                    <x-input field="model.password" label="{{__('Password')}}"/>
-                    <x-input field="password_confirmation" label="{{__('Confirm password')}}"/>
+                <x-form wire:submit.prevent="updatePassword">
+                    <x-input field="current_password" label="{{__('drystack::drystack.auth.password.current')}}"/>
+                    <x-input field="model.password" label="{{__('drystack::drystack.auth.password')}}"/>
+                    <x-input field="password_confirmation" label="{{__('drystack::drystack.auth.password.confirm')}}"/>
                 </x-form>
             </x-card>
         </x-row>
