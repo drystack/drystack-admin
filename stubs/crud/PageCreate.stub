@@ -12,7 +12,7 @@ class {{name}}PageCreate extends Component
 
     public \App\Models\{{model}} $model;
 
-    public string $title = "title.{{view}}.create"; //Key of translation string
+    public string $title = "drystack::drystack.title.{{view}}.create"; //Key of translation string
 
     protected $rules = [
         //add validation rules for any bound attribute here

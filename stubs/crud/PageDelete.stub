@@ -9,7 +9,7 @@ class {{name}}PageDelete extends Component
 {
     public \App\Models\{{model}} $model;
 
-    public string $title = "title.{{view}}.delete"; //Key of translation string
+    public string $title = "drystack::drystack.title.{{view}}.delete"; //Key of translation string
 
     public function render()
     {
