@@ -12,6 +12,10 @@ return [
     'form.send' => 'Invia',
 
     'action.create' => 'Crea nuovo',
+    'action.delete' => 'Cancella',
+    'action.delete.description' => 'Sei sicuro di voler procedere?',
+    'action.delete.confirm' => 'Si, cancella',
+    'action.delete.cancel' => 'Annulla',
 
     'create' => 'Crea',
     'view' => 'Visualizza',

@@ -12,6 +12,10 @@ return [
     'form.send' => 'Send',
 
     'action.create' => 'Create new',
+    'action.delete' => 'Delete',
+    'action.delete.description' => 'Are you sure you want to proceed?',
+    'action.delete.confirm' => 'Yes, delete',
+    'action.delete.cancel' => 'Go back',
 
     'create' => 'Create',
     'view' => 'Show',
