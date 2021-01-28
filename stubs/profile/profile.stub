@@ -9,7 +9,8 @@
 
         <x-row class="grid grid-cols-3 gap-6">
             <x-column class="col-span-1">
-                {{ __('profile.edit.description') }}
+                <h3 class="font-bold mb-4 text-lg text-neutral-600">{{ __('profile.edit.title') }}</h3>
+                <span class="text-neutral-500">{{ __('profile.edit.description') }}</span>
             </x-column>
             <x-card class="col-span-2">
                 <x-form wire:submit.prevent="submit">
@@ -21,7 +22,8 @@
 
         <x-row class="grid grid-cols-3 gap-6">
             <x-column class="col-span-1">
-                {{ __('profile.password.description') }}
+                <h3 class="font-bold mb-4 text-lg text-neutral-600">{{ __('profile.password.title') }}</h3>
+                <span class="text-neutral-500">{{ __('profile.password.description') }}</span>
             </x-column>
             <x-card class="col-span-2">
                 <x-form wire:submit.prevent="submit">
