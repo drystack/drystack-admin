@@ -3,27 +3,27 @@
         <x-notification/>
         <x-row class="justify-between mb-8 items-center max-w-screen-xl mx-auto">
             <div>
-                <x-title :title="$title" />
+                <x-title>{{ __($title) }}</x-title>
             </div>
         </x-row>
 
         <x-row class="grid grid-cols-3 gap-6">
             <x-column class="col-span-1">
-                <h3 class="font-bold mb-4 text-lg text-neutral-600">{{ __('profile.edit.title') }}</h3>
-                <span class="text-neutral-500">{{ __('drystack::drystack.profile.edit.description') }}</span>
+                <h3 class="font-bold mb-4 text-lg text-neutral-500">{{ __('drystack::drystack.profile.edit.title') }}</h3>
+                <span class="text-neutral-500 text-sm">{{ __('drystack::drystack.profile.edit.description') }}</span>
             </x-column>
             <x-card class="col-span-2">
-                <x-form wire:submit.prevent="submit">
+                <x-form wire:submit.prevent="updateProfile">
                     <x-input field="model.name" label="{{__('drystack::drystack.auth.name')}}"/>
                     <x-input field="model.email" label="{{__('drystack::drystack.auth.email')}}"/>
                 </x-form>
             </x-card>
         </x-row>
 
-        <x-row class="grid grid-cols-3 gap-6">
+        <x-row class="grid grid-cols-3 gap-6 mt-12">
             <x-column class="col-span-1">
-                <h3 class="font-bold mb-4 text-lg text-neutral-600">{{ __('profile.password.title') }}</h3>
-                <span class="text-neutral-500">{{ __('profile.password.description') }}</span>
+                <h3 class="font-bold mb-4 text-lg text-neutral-500">{{ __('drystack::drystack.profile.password.title') }}</h3>
+                <span class="text-neutral-500 text-sm">{{ __('drystack::drystack.profile.password.description') }}</span>
             </x-column>
             <x-card class="col-span-2">
                 <x-form wire:submit.prevent="updatePassword">

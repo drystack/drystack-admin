@@ -23,7 +23,7 @@ class LoginPage extends Component
     ];
 
     public function render() {
-        return view('livewire.auth.login')->layout('drystack::layout_guest');;
+        return view('livewire.auth.login')->layout('drystack::layout_guest');
     }
 
     public function submit() {

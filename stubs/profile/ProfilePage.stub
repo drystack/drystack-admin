@@ -4,25 +4,23 @@ namespace {{namespace}};
 
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
-
-use Drystack\Admin\Traits\WithModelSave;
 
 class ProfilePage extends Component
 {
-    use WithModelSave;
-
     public \App\Models\User $model;
 
-    public string $current_password;
-    public string $password_confirmation;
-
-    public string $title = 'title.profile'; //see translations key title.dashboard
+    public string $current_password = '';
+    public string $password = '';
+    public string $password_confirmation = '';
 
     protected $rules = [
-        'name' => 'required|string',
-        'email' => 'required|string|unique:users'
+        'model.name' => 'required',
+        'model.email' => 'required|email'
     ];
+
+    public string $title = 'drystack::drystack.title.profile'; //see translations key title.dashboard
 
     public function mount() {
         $this->model = Auth::user();
@@ -32,9 +30,22 @@ class ProfilePage extends Component
         return view('livewire.profile.profile')->layout('drystack::layout');;
     }
 
+    public function updateProfile() {
+        $this->validate([
+            'model.name' => 'required|string',
+            'model.email' => [
+                'required',
+                'string',
+                Rule::unique('users', 'email')->ignore($this->model)
+            ]
+        ]);
+        $this->model->save();
+        session()->flash('notification', 'Data saved successfully');
+    }
+
     public function updatePassword() {
         $this->validate([
-            'model.password' => 'required|string|confirmed',
+            'password' => 'required|string|confirmed',
             'current_password' => 'required|string',
             'password_confirmation' => 'required|string'
         ]);
