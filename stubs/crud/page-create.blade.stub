@@ -1,14 +1,16 @@
-<x-column>
-    <x-notification />
-    <x-row class="justify-between mb-8 items-center max-w-screen-xl">
-        <x-title :title=$title :breadcrumbs=['title.{{name}}.index' => '{{name}}.index']/>
-    </x-row>
+<x-container>
+    <x-column>
+        <x-notification />
+        <x-row class="justify-between mb-8 items-center max-w-screen-xl  mx-auto">
+            <x-title :title=$title :breadcrumbs=['title.{{name}}.index' => '{{name}}.index']/>
+        </x-row>
 
-    <x-card>
-        <x-form wire:submit.prevent="submit">
+        <x-card>
+            <x-form wire:submit.prevent="submit">
 
-        </x-form>
-    </x-card>
-</x-column>
+            </x-form>
+        </x-card>
+    </x-column>
+</x-container>
 
 

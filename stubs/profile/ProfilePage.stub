@@ -14,10 +14,14 @@ class ProfilePage extends Component
 
     public \App\Models\User $model;
 
+    public string $current_password;
+    public string $password_confirmation;
+
     public string $title = 'title.profile'; //see translations key title.dashboard
 
     protected $rules = [
-        'name' => 'required|string'
+        'name' => 'required|string',
+        'email' => 'required|string|unique:users'
     ];
 
     public function mount() {
@@ -26,5 +30,13 @@ class ProfilePage extends Component
 
     public function render() {
         return view('livewire.profile.profile')->layout('drystack::layout');;
+    }
+
+    public function updatePassword() {
+        $this->validate([
+            'model.password' => 'required|string|confirmed',
+            'current_password' => 'required|string',
+            'password_confirmation' => 'required|string'
+        ]);
     }
 }

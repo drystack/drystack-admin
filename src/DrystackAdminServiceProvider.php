@@ -27,7 +27,7 @@ class DrystackAdminServiceProvider extends ServiceProvider {
                 __DIR__.'/../config/drystack.php' => config_path('drystack.php'),
             ], 'drystack-config');
         }
-
+        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'drystack');
     }
 }
