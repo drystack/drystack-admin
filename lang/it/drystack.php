@@ -26,7 +26,8 @@ return [
     'title.user.index' => 'Utenti',
     'title.user.create' => 'Crea',
     'title.user.update' => 'Aggiorna :name',
-    'title.user.view' => ':name',
+    'title.user.read' => ':name',
+    'title.user.delete' => 'Cancella :name',
 
     'profile.edit.title' => 'Modifica dati personali',
     'profile.edit.description' => 'Aggiorna il tuo nome ed email. La email inserita sarà usata per il login.',

@@ -26,7 +26,8 @@ return [
     'title.user.index' => 'Users',
     'title.user.create' => 'New',
     'title.user.update' => 'Update :name',
-    'title.user.view' => ':name',
+    'title.user.read' => ':name',
+    'title.user.delete' => 'Delete :name',
 
 
     'profile.edit.title' => 'Update personal data',
