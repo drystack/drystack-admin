@@ -13,7 +13,7 @@ class {{name}}PageRead extends Component
 
     public function render()
     {
-        return view('{{view}}.{{view}}-page-read')
+        return view('{{prefix}}.{{view}}-page-read')
             ->layout('drystack::layout');
     }
 }

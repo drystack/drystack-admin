@@ -29,9 +29,7 @@ class MakeCrudPage extends Command {
 
         $model = $this->option('model') ?? ucfirst($name);
 
-        $view = $view_prefix . '.' . ($this->option('view') ?? $name);
-
-        $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $this->namespace, $class, $model, $view);
+        $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $this->namespace, $class, $model, $view_prefix);
         $this->makeViews(["index", "create", "read", "update"], $name, $this->view_path . "/$name");
 
         $this->makeDatatable($class, $model, $this->namespace);
@@ -79,6 +77,7 @@ class MakeCrudPage extends Command {
         $page = str_replace("{{name}}", $class, $page);
         $page = str_replace("{{title}}", $class, $page);
         $page = str_replace("{{model}}", $model, $page);
+        $page = str_replace("{{prefix}}", $view, $page);
         $page = str_replace("{{view}}", strtolower($class), $page);
 
         $page_name = "$namespace\\$class";

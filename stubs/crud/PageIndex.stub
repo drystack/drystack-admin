@@ -13,7 +13,7 @@ class {{name}}PageIndex extends Component
 
     public function render()
     {
-        return view('{{view}}.{{view}}-page-index')
+        return view('{{prefix}}.{{view}}-page-index')
             ->layout('drystack::layout');
     }
 }

@@ -21,7 +21,7 @@ class {{name}}PageUpdate extends Component
 
     public function render()
     {
-        return view('{{view}}.{{view}}-page-update')
+        return view('{{prefix}}.{{view}}-page-update')
             ->layout('drystack::layout');
     }
 }
