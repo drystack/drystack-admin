@@ -1,21 +1,27 @@
 <?php
 
 return [
-    'Email' => 'Email',
-    'Password' => 'Password',
-    'Password confirmation' => 'Conferma password',
-    'Forgot your password?' => 'Password dimenticata?',
-    'Rembember me' => 'Ricordami',
+    'auth.email' => 'Email',
+    'auth.password' => 'Password',
+    'auth.password.confirm' => 'Conferma password',
+    'auth.forgot' => 'Password dimenticata?',
+    'auth.remember' => 'Ricordami',
 
-    'Send' => 'Invia',
+    'form.send' => 'Invia',
 
-    'Create' => 'Crea',
-    'View' => 'Visualizza',
-    'Update' => 'Aggiorna',
-    'Delete' => 'Cancella',
+    'action.create' => 'Crea nuovo',
 
-    'User' => 'Utente',
-    'Users' => 'Utenti',
+    'create' => 'Crea',
+    'view' => 'Visualizza',
+    'update' => 'Aggiorna',
+    'delete' => 'Cancella',
 
-    'title.dashboard' => 'Dashboard'
+    'user' => 'Utente',
+    'users' => 'Utenti',
+
+    'title.dashboard' => 'Dashboard',
+    'title.user.index' => 'Utenti',
+    'title.user.create' => 'Crea',
+    'title.user.update' => 'Aggiorna :name',
+    'title.user.view' => ':name'
 ];

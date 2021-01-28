@@ -4,7 +4,7 @@
         <x-row class="justify-between mb-8 items-center max-w-screen-xl mx-auto">
             <x-title :title=$title />
             <x-button primary class="shadow">
-                <a href="{{ route('{{name}}.create') }}">Crea nuovo</a>
+                <a href="{{ route('{{name}}.create') }}">{{ __('drystack::drystack.action.create') }} </a>
             </x-button>
         </x-row>
 

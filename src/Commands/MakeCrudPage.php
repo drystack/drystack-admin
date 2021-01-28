@@ -35,7 +35,7 @@ class MakeCrudPage extends Command {
         $this->makeDatatable($class, $model, $this->namespace);
 
         $page_name = "$this->namespace\\$class";
-        $this->addRoutes($name, $page_name, ["index", "create", "read", "update", "delete"]);
+        $this->addRoutes($name, $page_name, ["index" => '', "create" => '', "read" => '/{id}', "update" => '/{id}', "delete" => '/{id}']);
     }
 
     protected function getPath($name)
@@ -55,11 +55,11 @@ class MakeCrudPage extends Command {
     protected function addRoutes(string $name, string $page_name, array $routes) {
         $file = file_get_contents(base_path('routes/drystack.php'));
         $file .= "\n";
-        foreach ($routes as $route) {
+        foreach ($routes as $route => $parameters) {
             $action = ucfirst($route);
             $route = "$name.$route";
             if (str_contains($file, $route)) continue;
-            $path = str_replace(".", "/", $route);
+            $path = str_replace(".", "/", $route) . $parameters;
             $file .= "Route::get('$path', {$page_name}Page{$action}::class)->middleware(['auth'])->name('$route');\n";
         }
         file_put_contents(base_path('routes/drystack.php'), $file);

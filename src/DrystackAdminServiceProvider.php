@@ -28,6 +28,6 @@ class DrystackAdminServiceProvider extends ServiceProvider {
             ], 'drystack-config');
         }
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadTranslationsFrom(__DIR__.'/../resources/lang', 'drystack');
+        $this->loadTranslationsFrom(__DIR__.'/../lang', 'drystack');
     }
 }
