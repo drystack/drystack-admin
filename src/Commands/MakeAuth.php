@@ -21,31 +21,30 @@ class MakeAuth extends Command {
 
     public function handle() {
         if ($this->checkLivewireConfigured() == -1) return -1;
-
-        $dash_namespace = $this->namespace . "\\Dashboard";
-        $dash_view_path = $this->view_path . "/dashboard";
-        $profile_namespace = $this->namespace . "\\Profile";
-        $profile_view_path = $this->view_path . "/profile";
-        $this->view_path = $this->view_path . "/auth";
-        $this->namespace = $this->namespace . "\\Auth";
-        $this->makeControllerAndViewFolders($this->namespace, $this->view_path);
+        $dash_namespace = $this->livewire_namespace . "\\Dashboard";
+        $dash_view_path = $this->livewire_view_path . "/dashboard";
+        $profile_namespace = $this->livewire_namespace . "\\Profile";
+        $profile_view_path = $this->livewire_view_path . "/profile";
+        $this->livewire_view_path = $this->livewire_view_path . "/auth";
+        $this->livewire_namespace = $this->livewire_namespace . "\\Auth";
+        $this->makeControllerAndViewFolders($this->livewire_namespace, $this->livewire_view_path);
         $this->makeControllerAndViewFolders($dash_namespace, $dash_view_path);
         $this->makeControllerAndViewFolders($profile_namespace, $profile_view_path);
 
-        copy(__DIR__ . '/../../stubs/auth/login.stub', $this->view_path . "/login.blade.php");
-        copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->view_path . "/forgot-password.blade.php");
-        copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->view_path . "/reset-password.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/login.stub', $this->livewire_view_path . "/login.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/forgot-password.stub', $this->livewire_view_path . "/forgot-password.blade.php");
+        copy(__DIR__ . '/../../stubs/auth/reset-password.stub', $this->livewire_view_path . "/reset-password.blade.php");
         copy(__DIR__ . '/../../stubs/dashboard/dashboard.stub', $dash_view_path . "/dashboard.blade.php");
         copy(__DIR__ . '/../../stubs/profile/profile.stub', $profile_view_path . "/profile.blade.php");
 
-        $this->makePages(["LoginPage", "ForgotPasswordPage", "ResetPasswordPage", "LogoutPage"], $this->namespace, "Auth");
+        $this->makePages(["LoginPage", "ForgotPasswordPage", "ResetPasswordPage", "LogoutPage"], $this->livewire_namespace, "Auth");
         $this->makePage("DashboardPage", $dash_namespace, "Dashboard", 'dashboard');
         $this->makePage("ProfilePage", $profile_namespace, "Profile", 'profile');
         $this->addRoutes([
-            "login" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\LoginPage'],
-            "password.forgot" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ForgotPasswordPage', 'path' => 'forgot-password'],
-            "password.reset" => ['method' => 'get', 'protected' => false, 'action' => $this->namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}'],
-            "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->namespace . '\\LogoutPage'],
+            "login" => ['method' => 'get', 'protected' => false, 'action' => $this->livewire_namespace . '\\LoginPage'],
+            "password.forgot" => ['method' => 'get', 'protected' => false, 'action' => $this->livewire_namespace . '\\ForgotPasswordPage', 'path' => 'forgot-password'],
+            "password.reset" => ['method' => 'get', 'protected' => false, 'action' => $this->livewire_namespace . '\\ResetPasswordPage', 'path' => 'reset-password/{token}'],
+            "logout" => ['method' => 'get', 'protected' => true, 'action' => $this->livewire_namespace . '\\LogoutPage'],
             "dashboard" => ['method' => 'get', 'protected' => true, 'action' => $dash_namespace . '\\DashboardPage'],
             "profile" => ['method' => 'get', 'protected' => true, 'action' => $profile_namespace . '\\ProfilePage']
         ]);
@@ -76,6 +75,7 @@ class MakeAuth extends Command {
     protected function makePage(string $action, string $namespace, string $class, string $folder = 'auth') {
         $page = file_get_contents(__DIR__ . "/../../stubs/$folder/$action.stub");
         $page = str_replace("{{namespace}}", $namespace, $page);
+        $page = str_replace("{{prefix}}", $this->view_prefix, $page);
 
         $page_name = "$namespace\\$action";
 

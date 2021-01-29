@@ -1,0 +1,57 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+use Drystack\Admin\Traits\WithModelSave;
+
+class {{name}}PageCreate extends Component
+{
+    use WithModelSave;
+
+    public {{model}} $model;
+    public $ability_groups;
+    public $assigned_abilities = [];
+
+    public string $title = "drystack::drystack.title.role.create"; //Key of translation string
+
+    protected $rules = [
+        'model.name' => 'required|string|unique:prm_roles,name'//add validation rules for any bound attribute here
+    ];
+
+    public function mount() {
+        $this->model = new {{model}}();
+    }
+
+    public function render()
+    {
+        return view('{{prefix}}.{{view}}-page-create')
+            ->layout(config('drystack.layout'));
+    }
+
+    public function submit() {
+        $this->validate();
+        $this->model->save();
+        $insert = [];
+        foreach ($this->assigned_abilities as $assigned_group) {
+            foreach ($assigned_group as $ability_id) {
+                $insert[] = [
+                    'role_id' => $this->model->id,
+                    'ability_id' => $ability_id,
+                    'restricted_id' => null
+                ];
+            }
+        }
+
+        $this->model->rolesAbilities()->insert($insert);
+
+        $offset = strpos(Route::current()->name, ".") + 1;
+        $length = strpos(Route::current()->name, "-") - $offset;
+        $model_name = substr(Route::current()->name, $offset, $length);
+
+        session()->flash('notification', ucfirst($model_name) . ' saved successfully');
+
+        return redirect()->route($model_name . '.index');
+    }
+}

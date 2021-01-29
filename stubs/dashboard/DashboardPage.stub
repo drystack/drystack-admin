@@ -10,6 +10,6 @@ class DashboardPage extends Component
     public string $title = 'title.dashboard'; //see translations key title.dashboard
 
     public function render() {
-        return view('livewire.dashboard.dashboard')->layout('drystack::layout');;
+        return view('{{prefix}}.dashboard.dashboard')->layout(config('drystack.layout'));
     }
 }

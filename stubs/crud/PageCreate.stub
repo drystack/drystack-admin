@@ -10,7 +10,7 @@ class {{name}}PageCreate extends Component
 {
     use WithModelSave;
 
-    public \App\Models\{{model}} $model;
+    public {{model}} $model;
 
     public string $title = "drystack::drystack.title.{{view}}.create"; //Key of translation string
 
@@ -19,12 +19,12 @@ class {{name}}PageCreate extends Component
     ];
 
     public function mount() {
-        $this->model = new \App\Models\{{model}}();
+        $this->model = new {{model}}();
     }
 
     public function render()
     {
         return view('{{prefix}}.{{view}}-page-create')
-            ->layout('drystack::layout');
+            ->layout(config('drystack.layout'));
     }
 }

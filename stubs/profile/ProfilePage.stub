@@ -27,7 +27,7 @@ class ProfilePage extends Component
     }
 
     public function render() {
-        return view('livewire.profile.profile')->layout('drystack::layout');;
+        return view('{{prefix}}.profile.profile')->layout(config('drystack.layout'));
     }
 
     public function updateProfile() {

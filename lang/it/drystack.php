@@ -10,20 +10,30 @@ return [
     'auth.remember' => 'Ricordami',
 
     'form.send' => 'Invia',
+    'form.cancel' => 'Annulla',
 
     'action.create' => 'Crea nuovo',
+    'action.edit' => 'Modifica',
+    'action.update' => 'Modifica',
     'action.delete' => 'Cancella',
     'action.delete.description' => 'Sei sicuro di voler procedere?',
     'action.delete.confirm' => 'Si, cancella',
     'action.delete.cancel' => 'Annulla',
 
-    'create' => 'Crea',
-    'view' => 'Visualizza',
-    'update' => 'Aggiorna',
-    'delete' => 'Cancella',
+    'create' => 'Creare',
+    'view' => 'Visualizzare',
+    'read' => 'Visualizzare',
+    'update' => 'Aggiornare',
+    'delete' => 'Cancellare',
 
     'user' => 'Utente',
     'users' => 'Utenti',
+    'role' => 'Ruolo',
+    'roles' => 'Ruoli',
+
+    'name' => 'Nome',
+
+    'manage' => 'Gestione',
 
     'title.dashboard' => 'Dashboard',
     'title.profile' => 'Il mio profilo',
@@ -33,8 +43,17 @@ return [
     'title.user.read' => ':name',
     'title.user.delete' => 'Cancella :name',
 
+    'title.role.index' => 'Ruoli',
+    'title.role.create' => 'Crea',
+    'title.role.update' => 'Aggiorna :name',
+    'title.role.read' => ':name',
+    'title.role.delete' => 'Cancella :name',
+
     'profile.edit.title' => 'Modifica dati personali',
     'profile.edit.description' => 'Aggiorna il tuo nome ed email. La email inserita sarà usata per il login.',
     'profile.password.title' => 'Aggiorna la tua password',
     'profile.password.description' => 'Inserisci la tua password attuale per confermare. La nuova password non può essere uguale a quella attuale.',
+
+    'role.data' => 'Dati ruolo',
+    'role.abilities' => 'Permessi',
 ];

@@ -10,20 +10,30 @@ return [
     'auth.remember' => 'Remember me',
 
     'form.send' => 'Send',
+    'form.cancel' => 'Cancel',
 
     'action.create' => 'Create new',
+    'action.edit' => 'Update',
+    'action.update' => 'Update',
     'action.delete' => 'Delete',
     'action.delete.description' => 'Are you sure you want to proceed?',
     'action.delete.confirm' => 'Yes, delete',
     'action.delete.cancel' => 'Go back',
 
-    'create' => 'Create',
-    'view' => 'Show',
-    'update' => 'Update',
-    'delete' => 'Delete',
+    'create' => 'Creating',
+    'view' => 'Showing',
+    'read' => 'Showing',
+    'update' => 'Updating',
+    'delete' => 'Deleting',
 
     'user' => 'User',
     'users' => 'Users',
+    'role' => 'Role',
+    'roles' => 'Roles',
+
+    'name' => 'Nome',
+
+    'manage' => 'Manage',
 
     'title.dashboard' => 'Dashboard',
     'title.profile' => 'My profile',
@@ -33,9 +43,18 @@ return [
     'title.user.read' => ':name',
     'title.user.delete' => 'Delete :name',
 
+    'title.role.index' => 'Roles',
+    'title.role.create' => 'New',
+    'title.role.update' => 'Update :name',
+    'title.role.read' => ':name',
+    'title.role.delete' => 'Delete :name',
+
 
     'profile.edit.title' => 'Update personal data',
     'profile.edit.description' => 'Update your personal data. The chosen email will be your login email.',
     'profile.password.title' => 'Update password',
     'profile.password.description' => 'Type your current password to confirm. The new password cannot be the same as the current one.',
+
+    'role.data' => 'Role data',
+    'role.abilities' => 'Permissions',
 ];

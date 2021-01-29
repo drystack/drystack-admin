@@ -11,10 +11,20 @@ class {{name}}PageRead extends Component
 
     public string $title = "drystack::drystack.title.{{view}}.read"; //Key of translation string
     public array $title_parameters = [];
+    public $ability_groups;
+    public $assigned_abilities = [];
 
     public function mount($id) {
         $this->model = {{model}}::find($id);
         $this->title_parameters['name'] = $this->model->name;
+        
+        $this->ability_groups = Ability::all()->groupBy('entity')->toArray();
+        foreach ($this->ability_groups as $key => $ability_group) {
+            $new_key = strtolower(substr($key, strrpos($key, "\\") + 1));
+            $this->ability_groups[$new_key] = $ability_group;
+            $this->assigned_abilities[$new_key] = [];
+            unset($this->ability_groups[$key]);
+        }
     }
 
     public function render()

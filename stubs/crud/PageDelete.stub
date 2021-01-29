@@ -7,13 +7,13 @@ use Livewire\Component;
 
 class {{name}}PageDelete extends Component
 {
-    public \App\Models\{{model}} $model;
+    public {{model}} $model;
 
     public string $title = "drystack::drystack.title.{{view}}.delete"; //Key of translation string
 
     public function render()
     {
         return view('{{prefix}}.{{view}}-page-delete')
-            ->layout('drystack::layout');
+            ->layout(config('drystack.layout'));
     }
 }

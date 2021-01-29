@@ -11,17 +11,23 @@ class {{name}}PageUpdate extends Component
 {
     use WithModelSave;
 
-    public \App\Models\{{model}} $model;
+    public {{model}} $model;
 
     public string $title = "drystack::drystack.title.{{view}}.update"; //Key of translation string
+    public array $title_parameters = [];
 
     protected $rules = [
         //add validation rules for any bound attribute here
     ];
 
+    public function mount($id) {
+        $this->model = {{model}}::find($id);
+        $this->title_parameters['name'] = $this->model->name;
+    }
+
     public function render()
     {
         return view('{{prefix}}.{{view}}-page-update')
-            ->layout('drystack::layout');
+            ->layout(config('drystack.layout'));
     }
 }

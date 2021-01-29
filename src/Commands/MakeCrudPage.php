@@ -5,7 +5,9 @@ namespace Drystack\Admin\Commands;
 
 use Drystack\Admin\Commands\Traits\HasLivewire;
 use Drystack\Admin\Commands\Traits\MakeFiles;
+use Drystack\Admin\Models\Ability;
 use Illuminate\Console\Command;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class MakeCrudPage extends Command {
@@ -19,22 +21,38 @@ class MakeCrudPage extends Command {
         if ($this->checkLivewireConfigured() == -1) return -1;
 
         $name = strtolower($this->argument('name'));
-        $class = ucfirst($name);
+        $model_name = $this->option('model') ?? "\\App\\Models\\" . ucfirst($name);
 
-        $view_path_laravel = substr($this->view_path, stripos($this->view_path, "views/") + 6);
+        $this->makeCrudPage($name, $model_name);
+
+        $abilities = [];
+        foreach (["create", "read", "update", "delete"] as $ability) {
+            $abilities[] = [
+                'name' => $ability,
+                'entity' => substr($model_name, 1)
+            ];
+        }
+        DB::table('prm_abilities')->insert($abilities);
+        if (file_exists($this->livewire_view_path . "/permission")) return 0;
+        $this->makeCrudPage("role", "\\Drystack\\Admin\\Models\\Role");
+    }
+
+
+    protected function makeCrudPage(string $name, string $model_name) {
+        $crud_name = ucfirst($name);
+        $view_path_laravel = substr($this->livewire_view_path, stripos($this->livewire_view_path, "views/") + 6);
         $view_prefix = str_replace('/', '.', "$view_path_laravel/$name");
 
-        $this->namespace = $this->namespace . "\\$class";
-        $this->makeControllerAndViewFolders($this->namespace, $this->view_path . "/$name");
+        $livewire_namespace = $this->livewire_namespace . "\\$crud_name";
+        $livewire_view_path = $this->livewire_view_path . "/$name";
+        $this->makeControllerAndViewFolders($livewire_namespace, $livewire_view_path);
 
-        $model = $this->option('model') ?? ucfirst($name);
+        $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $livewire_namespace, $crud_name, $model_name, $view_prefix);
+        $this->makeViews(["index", "create", "read", "update"], $name, $livewire_view_path);
 
-        $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $this->namespace, $class, $model, $view_prefix);
-        $this->makeViews(["index", "create", "read", "update"], $name, $this->view_path . "/$name");
+        $this->makeDatatable($crud_name, $model_name, $livewire_namespace);
 
-        $this->makeDatatable($class, $model, $this->namespace);
-
-        $page_name = "$this->namespace\\$class";
+        $page_name = "$livewire_namespace\\$crud_name";
         $this->addRoutes($name, $page_name, ["index" => '', "create" => '', "read" => '/{id}', "update" => '/{id}', "delete" => '/{id}']);
     }
 
@@ -104,7 +122,7 @@ class MakeCrudPage extends Command {
         $datatable = str_replace("{{model}}", $model, $datatable);
         $datatable = str_replace("{{namespace}}", $namespace, $datatable);
 
-        $datatable_page_name = "$namespace\\$model"."Datatable";
+        $datatable_page_name = "$namespace\\$class"."Datatable";
 
         file_put_contents($this->getPath($datatable_page_name), $datatable);
     }

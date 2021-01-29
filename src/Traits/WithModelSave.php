@@ -11,8 +11,9 @@ trait WithModelSave {
     public function submit() {
         $this->validate();
         $this->model->save();
-
-        $model_name = substr(Route::current()->name, 0, strpos(Route::current()->name, "-"));
+        $offset = strpos(Route::current()->name, ".") + 1;
+        $length = strpos(Route::current()->name, "-") - $offset;
+        $model_name = substr(Route::current()->name, $offset, $length);
 
         session()->flash('notification', ucfirst($model_name) . ' saved successfully');
 

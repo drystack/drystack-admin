@@ -7,13 +7,13 @@ use Livewire\Component;
 
 class {{name}}PageIndex extends Component
 {
-    public \App\Models\{{model}} $model;
+    public {{model}} $model;
 
     public string $title = "drystack::drystack.title.{{view}}.index"; //Key of translation string
 
     public function render()
     {
         return view('{{prefix}}.{{view}}-page-index')
-            ->layout('drystack::layout');
+            ->layout(config('drystack.layout'));
     }
 }

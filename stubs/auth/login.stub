@@ -13,7 +13,9 @@
                 <x-input label="{{__('drystack::drystack.auth.email')}}" field="email" type="email"/>
                 <x-input label="{{__('drystack::drystack.auth.password')}}" field="password" type="password"/>
 
-                <x-checkbox value="1" valueUnchecked="0" name="remember" />
+                <x-checkbox value="1" valueUnchecked="0" name="remember">
+                    <x-label>{{ __('drystack::drystack.auth.remember') }}</x-label>
+                </x-checkbox>
                 <x-slot name="actions">
                     <x-row class="justify-end mt-6 items-center gap-6">
                         <x-link href="{{ route('password.forgot') }}" class="text-neutral-500 hover:text-neutral-800">{{ __('drystack::drystack.auth.forgot') }}</x-link>

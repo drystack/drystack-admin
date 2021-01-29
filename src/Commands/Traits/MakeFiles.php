@@ -7,6 +7,8 @@ use Illuminate\Support\Str;
 
 trait MakeFiles {
     protected function makeControllerAndViewFolders($namespace, $view_path) {
+        $this->info($this->getPathNoExtension($namespace));
+        $this->info($view_path);
         if (!file_exists($this->getPathNoExtension($namespace))) {
             mkdir($this->getPathNoExtension($namespace), 0777, true);
         }
