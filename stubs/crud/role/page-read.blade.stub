@@ -2,12 +2,30 @@
     <x-column>
         <x-notification />
         <x-row class="justify-between mb-8 items-center max-w-screen-xl mx-auto">
-            <x-title :breadcrumbs="['drystack::drystack.title.{{name}}.index' => '{{name}}.index']"> {{ __($title, $title_parameters) }}</x-title>
+            <x-title :breadcrumbs="['drystack::drystack.title.role.index' => 'role.index']"> {{ __($title, $title_parameters) }}</x-title>
+            <x-button primary class="shadow">
+                <a href="{{ route('role.create') }}">{{ __('drystack::drystack.action.update') }} </a>
+            </x-button>
         </x-row>
 
         <x-card>
+            <div class="text-md mb-2">{{ __('drystack::drystack.role.data') }}</div>
+            <x-label>{{ __('drystack::drystack.name') }}</x-label>
+            <div class="text-neutral-500 mb-4">{{ $model->name }}</div>
 
+            <div class="text-md mb-2">{{ __('drystack::drystack.role.abilities') }}</div>
+
+            @foreach($ability_groups as $ability_title => $ability_group)
+                <div class="text-md mt-4">{{ __("drystack::drystack.manage") }} {{ __("drystack::drystack.{$ability_title}s") }}</div>
+                <x-row class="gap-12 mt-2">
+                    @foreach($ability_group as $ability)
+                        <x-checkbox disabled value="{{ $ability['id'] }}" valueUnchecked="0" name="assigned_abilities.{{ $ability_title }}.{{$ability['name']}}">
+                            <x-label>{{ __("drystack::drystack.{$ability['name']}") }}</x-label>
+                        </x-checkbox>
+                    @endforeach
+                </x-row>
+            @endforeach
+            <div class="mb-2.5"></div>
         </x-card>
     </x-column>
 </x-container>
-
