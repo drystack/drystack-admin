@@ -36,6 +36,10 @@ return [
 
     'manage' => 'Gestione',
 
+    'title.login' => 'Login',
+    'title.forgot-passord' => 'Recupera password',
+    'title.reset-password' => 'Reimposta password',
+
     'title.dashboard' => 'Dashboard',
     'title.profile' => 'Il mio profilo',
     'title.user.index' => 'Utenti',

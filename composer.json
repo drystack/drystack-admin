@@ -6,11 +6,8 @@
             "email": "info@lorenzocattaneo.com"
         }
     ],
+    "license": "GNU AGPLv3",
     "repositories": [
-        {
-            "type": "path",
-            "url": "../components"
-        },
         {
             "type": "vcs",
             "url": "https://github.com/lorenzocattaneo/livewire-datatables"
@@ -20,7 +17,7 @@
         "illuminate/contracts": "^8.0",
         "illuminate/support": "^8.0",
         "livewire/livewire": "^2.3",
-        "drystack/components": "dev-main",
+        "drystack/components": "^0.1",
         "mediconesystems/livewire-datatables": "dev-master"
 
     },
@@ -29,6 +26,12 @@
             "Drystack\\Admin\\": "src"
         }
     },
+    "config": {
+        "optimize-autoloader": true,
+        "preferred-install": "dist",
+        "sort-packages": true
+    },
+    "minimum-stability": "dev",
     "extra": {
         "laravel": {
             "providers": [

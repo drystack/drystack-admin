@@ -36,6 +36,10 @@ return [
 
     'manage' => 'Manage',
 
+    'title.login' => 'Login',
+    'title.forgot-passord' => 'Recover password',
+    'title.reset-password' => 'Reset password',
+
     'title.dashboard' => 'Dashboard',
     'title.profile' => 'My profile',
     'title.user.index' => 'Users',
