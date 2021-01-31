@@ -20,11 +20,11 @@ return [
     'action.delete.confirm' => 'Yes, delete',
     'action.delete.cancel' => 'Go back',
 
-    'create' => 'Creating',
-    'view' => 'Showing',
-    'read' => 'Showing',
-    'update' => 'Updating',
-    'delete' => 'Deleting',
+    'create' => 'Create',
+    'view' => 'Show',
+    'read' => 'Show',
+    'update' => 'Update',
+    'delete' => 'Delete',
 
     'user' => 'User',
     'users' => 'Users',
