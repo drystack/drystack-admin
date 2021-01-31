@@ -1,0 +1,46 @@
+<?php
+
+namespace App\Policies;
+
+{{use_model}};
+use App\Models\User;
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+class {{name}}Policy
+{
+    use HandlesAuthorization;
+
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    public function create(User $user, {{name}} $model = null)
+    {
+        $model_param = is_null($model) ? {{name}}::class : $model;
+        return $user->isAllowedTo('create', $model_param);
+    }
+
+    public function read(User $user, {{name}} $model = null)
+    {
+        $model_param = is_null($model) ? {{name}}::class : $model;
+        return $user->isAllowedTo('read', $model_param);
+    }
+
+    public function update(User $user, {{name}} $model = null)
+    {
+        $model_param = is_null($model) ? {{name}}::class : $model;
+        return $user->isAllowedTo('update', $model_param);
+    }
+
+    public function delete(User $user, {{name}} $model = null)
+    {
+        $model_param = is_null($model) ? {{name}}::class : $model;
+        return $user->isAllowedTo('delete', $model_param);
+    }
+}

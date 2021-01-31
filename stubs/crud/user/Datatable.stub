@@ -1,0 +1,30 @@
+<?php
+
+namespace {{namespace}};
+
+use Mediconesystems\LivewireDatatables\Column;
+use Mediconesystems\LivewireDatatables\NumberColumn;
+use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
+
+class {{name}}Datatable extends LivewireDatatable
+{
+    public $exportable = true;
+    public $hidePagination = false;
+    public $model = {{model}}::class;
+
+    public function columns()
+    {
+        return [
+            NumberColumn::name('id'),
+            Column::name('name')->label(__('drystack::drystack.auth.name'))->searchable(),
+            Column::name('email')->label(__('drystack::drystack.auth.email'))->searchable(),
+            Column::callback(['id'], function ($id) {
+                return view('drystack::components.table.livewire-datatable.table-actions', ['id' => $id, 'name' => strtolower('{{name}}')]);
+            })
+        ];
+    }
+
+    public function render() {
+        return view('drystack::components.table.livewire-datatable.datatable');
+    }
+}

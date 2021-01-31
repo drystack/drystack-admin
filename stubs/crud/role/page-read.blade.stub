@@ -4,7 +4,7 @@
         <x-row class="justify-between mb-8 items-center max-w-screen-xl mx-auto">
             <x-title :breadcrumbs="['drystack::drystack.title.role.index' => 'role.index']"> {{ __($title, $title_parameters) }}</x-title>
             <x-button primary class="shadow">
-                <a href="{{ route('role.create') }}">{{ __('drystack::drystack.action.update') }} </a>
+                <a href="{{ route('role.update', ['id' => $model->id]) }}">{{ __('drystack::drystack.action.update') }} </a>
             </x-button>
         </x-row>
 

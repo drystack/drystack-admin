@@ -3,6 +3,8 @@
 namespace {{namespace}};
 
 use Illuminate\Support\Facades\Validator;
+use Drystack\Admin\Models\Ability;
+use Illuminate\Support\Facades\Route;
 use Livewire\Component;
 
 class {{name}}PageRead extends Component
@@ -15,15 +17,21 @@ class {{name}}PageRead extends Component
     public $assigned_abilities = [];
 
     public function mount($id) {
-        $this->model = {{model}}::find($id);
+        $this->model = \Drystack\Admin\Models\Role::find($id);
         $this->title_parameters['name'] = $this->model->name;
-        
+
         $this->ability_groups = Ability::all()->groupBy('entity')->toArray();
         foreach ($this->ability_groups as $key => $ability_group) {
             $new_key = strtolower(substr($key, strrpos($key, "\\") + 1));
             $this->ability_groups[$new_key] = $ability_group;
             $this->assigned_abilities[$new_key] = [];
             unset($this->ability_groups[$key]);
+        }
+
+        $assigned = $this->model->abilities()->get();
+        foreach ($assigned as $item) {
+            $key = strtolower(substr($item->entity, strrpos($item->entity, "\\") + 1));
+            $this->assigned_abilities[$key][$item->name] = $item->id;
         }
     }
 

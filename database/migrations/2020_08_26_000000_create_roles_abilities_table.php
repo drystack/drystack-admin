@@ -16,9 +16,9 @@ class CreateRolesAbilitiesTable extends Migration
         Schema::create('prm_roles_abilities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('role_id');
-            $table->foreign('role_id')->references('id')->on('prm_roles');
+            $table->foreign('role_id')->references('id')->on('prm_roles')->cascadeOnDelete();
             $table->unsignedBigInteger('ability_id');
-            $table->foreign('ability_id')->references('id')->on('prm_abilities');
+            $table->foreign('ability_id')->references('id')->on('prm_abilities')->cascadeOnDelete();
             $table->unsignedBigInteger('restricted_id')->nullable();
 
             $table->unique(['role_id', 'ability_id']);

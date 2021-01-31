@@ -6,6 +6,7 @@ namespace Drystack\Admin\Commands;
 use Drystack\Admin\Commands\Traits\HasLivewire;
 use Drystack\Admin\Commands\Traits\MakeFiles;
 use Drystack\Admin\Models\Ability;
+use Drystack\Admin\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
@@ -25,6 +26,14 @@ class MakeCrudPage extends Command {
 
         $this->makeCrudPage($name, $model_name);
 
+        $this->addAbilitiesAndRole($model_name);
+
+        $this->makePolicy($name, $model_name);
+        if (file_exists($this->livewire_view_path . "/permission")) return 0;
+        $this->makeCrudPage("role", "\\Drystack\\Admin\\Models\\Role");
+    }
+
+    protected function addAbilitiesAndRole(string $model_name) {
         $abilities = [];
         foreach (["create", "read", "update", "delete"] as $ability) {
             $abilities[] = [
@@ -33,10 +42,23 @@ class MakeCrudPage extends Command {
             ];
         }
         DB::table('prm_abilities')->insert($abilities);
-        if (file_exists($this->livewire_view_path . "/permission")) return 0;
-        $this->makeCrudPage("role", "\\Drystack\\Admin\\Models\\Role");
-    }
+        $role = Role::find(1);
+        if ($role == null) {
+            $role->name = "Administrator";
+            $role->save();
+        }
 
+        $role_abilities = [];
+        $abilities_to_add = Ability::where('entity', substr($model_name, 1))->pluck('id');
+        foreach ($abilities_to_add as $ability) {
+            $role_abilities[] = [
+                'role_id' =>  $role->id,
+                'ability_id' => $ability
+            ];
+        }
+
+        $role->rolesAbilities()->insert($role_abilities);
+    }
 
     protected function makeCrudPage(string $name, string $model_name) {
         $crud_name = ucfirst($name);
@@ -90,7 +112,9 @@ class MakeCrudPage extends Command {
     }
 
     protected function makePage(string $action, string $namespace, string $class, string $model, string $view) {
-        $page = file_get_contents(__DIR__ . "/../../stubs/crud/Page$action.stub");
+        $subdir = strtolower($class);
+        $subdir = file_exists(__DIR__ . "/../../stubs/crud/$subdir/Page$action.stub") ? "$subdir/" : "";
+        $page = file_get_contents(__DIR__ . "/../../stubs/crud/{$subdir}Page$action.stub");
         $page = str_replace("{{namespace}}", $namespace, $page);
         $page = str_replace("{{name}}", $class, $page);
         $page = str_replace("{{title}}", $class, $page);
@@ -110,14 +134,17 @@ class MakeCrudPage extends Command {
     }
 
     protected function makeView(string $action, string $name, string $path) {
-        $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/page-$action.blade.stub");
+        $subdir = file_exists(__DIR__ . "/../../stubs/crud/$name/page-$action.blade.stub") ? "$name/" : "";
+        $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/{$subdir}page-$action.blade.stub");
         $view_page = str_replace("{{name}}", $name, $view_page);
 
         file_put_contents($path . '/' . $name . "-page-$action.blade.php" , $view_page);
     }
 
     protected function makeDatatable(string $class, string $model, string $namespace) {
-        $datatable = file_get_contents(__DIR__ . '/../../stubs/crud/Datatable.stub');
+        $subdir = strtolower($class);
+        $subdir = file_exists(__DIR__ . "/../../stubs/crud/$subdir/Datatable.stub") ? "$subdir/" : "";
+        $datatable = file_get_contents(__DIR__ . "/../../stubs/crud/{$subdir}Datatable.stub");
         $datatable = str_replace("{{name}}", $class, $datatable);
         $datatable = str_replace("{{model}}", $model, $datatable);
         $datatable = str_replace("{{namespace}}", $namespace, $datatable);
@@ -125,5 +152,22 @@ class MakeCrudPage extends Command {
         $datatable_page_name = "$namespace\\$class"."Datatable";
 
         file_put_contents($this->getPath($datatable_page_name), $datatable);
+    }
+
+    protected function makePolicy(string $name, string $model_name) {
+        $policy_name = ucfirst($name);
+
+        if (!file_exists(app_path('Policies'))) {
+            mkdir(app_path('Policies'), 0755);
+        }
+
+        $use_model = str_contains($model_name, "User") ? "" : "use $model_name;";
+
+        $policy_stub = file_get_contents(__DIR__ . "/../../stubs/Policy.stub");
+        $policy_stub = str_replace("{{name}}", $policy_name, $policy_stub);
+        $policy_stub = str_replace("{{use_model}}", $use_model, $policy_stub);
+
+        file_put_contents(app_path("Policies/{$policy_name}Policy.php"), $policy_stub);
+
     }
 }

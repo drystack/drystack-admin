@@ -6,6 +6,7 @@ namespace Drystack\Admin\Commands;
 use Database\Factories\UserFactory;
 use Drystack\Admin\Commands\Traits\HasLivewire;
 use Drystack\Admin\Commands\Traits\MakeFiles;
+use Drystack\Admin\Models\Role;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
@@ -49,20 +50,34 @@ class MakeAuth extends Command {
             "profile" => ['method' => 'get', 'protected' => true, 'action' => $profile_namespace . '\\ProfilePage']
         ]);
 
-        $this->info("Create admin user");
-        $name = $this->ask("Insert admin name:", "Administrator");
-        $email = $this->ask("Insert email:", null);
-        $password = $this->ask("Insert password:", null);
+        $role = Role::find(1);
+        if ($role == null) {
+            $role = new Role();
+            $role->name = "Administrator";
+            $role->save();
+        }
 
-        $user = [
-            'name' => $name,
-            'email' => $email,
-            'email_verified_at' => now(),
-            'password' => Hash::make($password),
-            'remember_token' => Str::random(10),
-        ];
+        $create = true;
+        if (\App\Models\User::count() > 1) {
+            $create = $this->confirm("Do you want to create a new admin user?", false);
 
-        DB::table('users')->insert($user);
+        }
+        if ($create) {
+            $this->info("Create admin user");
+            $name = $this->ask("Insert admin name:", "Administrator");
+            $email = $this->ask("Insert email:", null);
+            $password = $this->ask("Insert password:", null);
+
+            $user = new \App\Models\User();
+            $user->name = $name;
+            $user->email = $email;
+            $user->email_verified_at = now();
+            $user->password = Hash::make($password);
+            $user->remember_token = Str::random(10);
+            $user->save();
+
+            $user->addRole($role->name);
+        }
     }
 
 

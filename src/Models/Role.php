@@ -12,7 +12,11 @@ class Role extends Model{
     protected $guarded = [];
 
     public function abilities() {
-        return $this->hasManyThrough(Ability::class, RoleAbility::class, 'ability_id', 'id');
+        return $this->hasManyThrough(Ability::class, RoleAbility::class,
+            'role_id', //foreign key on RoleAbility (1)
+            'id', //foreign key on Ability (2)
+            'id', //local key on Role (1)
+            'ability_id'); //local key on RoleAbility (2)
     }
 
     public function rolesAbilities() {

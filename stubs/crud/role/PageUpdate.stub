@@ -1,0 +1,78 @@
+<?php
+
+namespace {{namespace}};
+
+use Illuminate\Support\Facades\Validator;
+use Livewire\Component;
+use Drystack\Admin\Models\Ability;
+use Illuminate\Support\Facades\Route;
+
+use Drystack\Admin\Traits\WithModelSave;
+
+class {{name}}PageUpdate extends Component
+{
+    use WithModelSave;
+
+    public {{model}} $model;
+
+    public string $title = "drystack::drystack.title.{{view}}.update"; //Key of translation string
+    public array $title_parameters = [];
+    public $ability_groups;
+    public $assigned_abilities = [];
+
+    protected $rules = [
+        'model.name' => 'required|string' //add validation rules for any bound attribute here
+    ];
+
+    public function mount($id) {
+        $this->model = \Drystack\Admin\Models\Role::find($id);
+        $this->title_parameters['name'] = $this->model->name;
+        $this->rules['model.name'] .= '|unique:prm_roles,name,' . $id;
+
+        $this->ability_groups = Ability::all()->groupBy('entity')->toArray();
+        foreach ($this->ability_groups as $key => $ability_group) {
+            $new_key = strtolower(substr($key, strrpos($key, "\\") + 1));
+            $this->ability_groups[$new_key] = $ability_group;
+            $this->assigned_abilities[$new_key] = [];
+            unset($this->ability_groups[$key]);
+        }
+
+        $assigned = $this->model->abilities()->get();
+        foreach ($assigned as $item) {
+            $key = strtolower(substr($item->entity, strrpos($item->entity, "\\") + 1));
+            $this->assigned_abilities[$key][$item->name] = $item->id;
+        }
+    }
+
+    public function render()
+    {
+        return view('{{prefix}}.{{view}}-page-update')
+            ->layout(config('drystack.layout'));
+    }
+
+    public function submit() {
+        $this->validate();
+        $this->model->save();
+        $insert = [];
+        foreach ($this->assigned_abilities as $assigned_group) {
+            foreach ($assigned_group as $ability_id) {
+                if ($ability_id == 0) continue;
+                $insert[] = [
+                    'role_id' => $this->model->id,
+                    'ability_id' => $ability_id,
+                    'restricted_id' => null
+                ];
+            }
+        }
+        $this->model->rolesAbilities()->where('role_id', $this->model->id)->delete();
+        $this->model->rolesAbilities()->insert($insert);
+
+        $offset = strpos(Route::current()->name, ".") + 1;
+        $length = strpos(Route::current()->name, "-") - $offset;
+        $model_name = substr(Route::current()->name, $offset, $length);
+
+        session()->flash('notification', ucfirst($model_name) . ' updated successfully');
+
+        return redirect()->route($model_name . '.index');
+    }
+}

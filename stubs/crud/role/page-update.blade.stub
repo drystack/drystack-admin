@@ -1,0 +1,28 @@
+<x-container>
+    <x-column>
+        <x-notification />
+        <x-row class="justify-between mb-8 items-center max-w-screen-xl mx-auto">
+            <x-title :breadcrumbs="['drystack::drystack.title.role.index' => 'role.index']"> {{ __($title, $title_parameters) }}</x-title>
+        </x-row>
+
+        <x-card>
+            <x-form wire:submit.prevent="submit">
+                <span class="mb-2">{{ __('drystack::drystack.role.data') }}</span>
+                <x-input label="{{ __('drystack::drystack.name') }}" field="model.name" />
+
+                <span class="mt-4">{{ __('drystack::drystack.role.abilities') }}</span>
+
+                @foreach($ability_groups as $ability_title => $ability_group)
+                    <div class="text-md mt-4">{{ __("drystack::drystack.manage") }} {{ __("drystack::drystack.{$ability_title}s") }}</div>
+                    <x-row class="gap-12 mt-2">
+                        @foreach($ability_group as $ability)
+                            <x-checkbox value="{{ $ability['id'] }}" valueUnchecked="0" name="assigned_abilities.{{ $ability_title }}.{{$ability['name']}}">
+                                <x-label>{{ __("drystack::drystack.{$ability['name']}") }}</x-label>
+                            </x-checkbox>
+                        @endforeach
+                    </x-row>
+                @endforeach
+            </x-form>
+        </x-card>
+    </x-column>
+</x-container>

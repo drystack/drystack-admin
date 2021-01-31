@@ -30,6 +30,7 @@ return [
     'users' => 'Utenti',
     'role' => 'Ruolo',
     'roles' => 'Ruoli',
+    'roles_permissions' => 'Ruoli & permessi',
 
     'name' => 'Nome',
 

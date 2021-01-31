@@ -4,6 +4,8 @@ namespace {{namespace}};
 
 use Illuminate\Support\Facades\Validator;
 use Livewire\Component;
+use Drystack\Admin\Models\Ability;
+use Illuminate\Support\Facades\Route;
 use Drystack\Admin\Traits\WithModelSave;
 
 class {{name}}PageCreate extends Component
