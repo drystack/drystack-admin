@@ -7,6 +7,7 @@ return [
     'auth.password.current' => 'Password attuale',
     'auth.password.confirm' => 'Conferma password',
     'auth.forgot' => 'Password dimenticata?',
+    'auth.back' => 'Torna al login',
     'auth.remember' => 'Ricordami',
 
     'form.send' => 'Invia',
@@ -37,7 +38,7 @@ return [
     'manage' => 'Gestione',
 
     'title.login' => 'Login',
-    'title.forgot-passord' => 'Recupera password',
+    'title.forgot-password' => 'Recupera password',
     'title.reset-password' => 'Reimposta password',
 
     'title.dashboard' => 'Dashboard',
