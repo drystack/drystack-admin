@@ -71,7 +71,7 @@ class MakeCrudPage extends Command {
         $this->makeControllerAndViewFolders($livewire_namespace, $livewire_view_path);
 
         $this->makePages(["Index", "Create", "Read", "Update", "Delete"], $livewire_namespace, $crud_name, $model_name, $view_prefix);
-        $this->makeViews(["index", "create", "read", "update"], $view_name, $livewire_view_path);
+        $this->makeViews(["index", "create", "read", "update"], $crud_name, $livewire_view_path);
 
         $this->makeDatatable($crud_name, $model_name, $livewire_namespace);
 
@@ -135,9 +135,12 @@ class MakeCrudPage extends Command {
     }
 
     protected function makeView(string $action, string $name, string $path) {
+        $datatable_name = $this->fromCamelCase($name);
+        $name = strtolower($name);
         $subdir = file_exists(__DIR__ . "/../../stubs/crud/$name/page-$action.blade.stub") ? "$name/" : "";
         $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/{$subdir}page-$action.blade.stub");
         $view_page = str_replace("{{name}}", $name, $view_page);
+        $view_page = str_replace("{{datatable_name}}", $name, $view_page);
 
         file_put_contents($path . '/' . $name . "-page-$action.blade.php" , $view_page);
     }
@@ -171,4 +174,13 @@ class MakeCrudPage extends Command {
         file_put_contents(app_path("Policies/{$policy_name}Policy.php"), $policy_stub);
 
     }
+
+    private function fromCamelCase($input) {
+        preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+        $ret = $matches[0];
+        foreach ($ret as &$match) {
+          $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+        }
+        return implode('-', $ret);
+      }
 }

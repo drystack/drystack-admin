@@ -9,7 +9,7 @@
         </x-row>
 
         <x-card>
-            <livewire:{{name}}.{{name}}-datatable />
+            <livewire:{{datatable_name}}.{{datatable_name}}-datatable />
         </x-card>
     </x-column>
 </x-container>
