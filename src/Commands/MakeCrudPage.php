@@ -159,7 +159,7 @@ class MakeCrudPage extends Command {
     }
 
     protected function makePolicy(string $name, string $model_name) {
-        $policy_name = $model_name;
+        $policy_name = $name;
 
         if (!file_exists(app_path('Policies'))) {
             mkdir(app_path('Policies'), 0755);
