@@ -140,7 +140,7 @@ class MakeCrudPage extends Command {
         $subdir = file_exists(__DIR__ . "/../../stubs/crud/$name/page-$action.blade.stub") ? "$name/" : "";
         $view_page = file_get_contents(__DIR__ . "/../../stubs/crud/{$subdir}page-$action.blade.stub");
         $view_page = str_replace("{{name}}", $name, $view_page);
-        $view_page = str_replace("{{datatable_name}}", $name, $view_page);
+        $view_page = str_replace("{{datatable_name}}", $datatable_name, $view_page);
 
         file_put_contents($path . '/' . $name . "-page-$action.blade.php" , $view_page);
     }
