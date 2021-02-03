@@ -63,4 +63,6 @@ return [
 
     'role.data' => 'Role data',
     'role.abilities' => 'Permissions',
+
+    'notification.data.saved' => 'Data saved',
 ];

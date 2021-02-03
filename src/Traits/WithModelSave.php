@@ -15,7 +15,7 @@ trait WithModelSave {
         $length = strpos(Route::current()->name, "-") - $offset;
         $model_name = substr(Route::current()->name, $offset, $length);
 
-        session()->flash('notification', ucfirst($model_name) . ' saved successfully');
+        session()->flash('notification', __('notification.data-saved'));
 
         return redirect()->route($model_name . '.index');
     }
