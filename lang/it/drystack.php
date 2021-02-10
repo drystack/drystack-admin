@@ -64,4 +64,9 @@ return [
     'role.abilities' => 'Permessi',
 
     'notification.data.saved' => 'Dati salvati',
+
+    'crud.create' => 'Crea',
+    'crud.read' => 'Visualizza',
+    'crud.update' => 'Aggiorna',
+    'crud.delete' => 'Cancella'
 ];
