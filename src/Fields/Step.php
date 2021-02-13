@@ -17,15 +17,14 @@ class Step {
     ];
 
     /**
-     * @param string $title
      * @param Field[]  $children
      * @return mixed
      */
-     public static function make(bool $visible, bool $first, bool $last, array $children) {
+     public static function make(array $children) {
          $self = new Step();
-         $self->step_data['visible'] = $visible;
-         $self->step_data['first'] = $first;
-         $self->step_data['last'] = $last;
+//         $self->step_data['visible'] = $visible;
+//         $self->step_data['first'] = $first;
+//         $self->step_data['last'] = $last;
          $self->step_data['children'] = $children;
          return $self;
      }
@@ -47,5 +46,9 @@ class Step {
 
      public function build() {
          return $this->step_data;
+     }
+
+     public function getValidationRule() {
+
      }
 }

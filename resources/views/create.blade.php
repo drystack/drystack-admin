@@ -7,7 +7,7 @@
 
         <x-card>
             <a href="#" wire:click="setShow()">Show</a>
-            <x-form wire:submit.prevent="submit" :fields="$this->formFields()" :pageaction="$action" :steps="isset($step)"/>
+            <x-form wire:submit.prevent="submit" :fields="$this->form()" :pageaction="$action" :steps="$this->form()->hasSteps()"/>
         </x-card>
     </x-column>
 </x-container>

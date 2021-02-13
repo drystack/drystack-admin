@@ -2,40 +2,36 @@
 
 namespace Drystack\Admin;
 
+use Drystack\Admin\Fields\Form;
+use Drystack\Admin\Fields\FormInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 abstract class CrudPage extends Page {
-    abstract public function formFields(): array;
-
-    public $queryString = ['model_id'];
+    abstract public function form(): Form;
     protected $listeners = ['prev' => 'prev', 'next' => 'next'];
 
-    public $other_data = [];
-
     public string $action;
-    public string $resource;
+    public ?string $resource;
 
     public $model_class;
+    public $model;
     public $data = [];
 
-    public $model;
-    public $model_id = null;
     public string $title;
 
-    public function mount(string $action) {
+    public function mount(string $action, $model_id = null) {
         if (!$this->isAllowedTo($action)) {
             abort(401);
         }
         $this->action = $action;
         $this->resource = Route::current()->getName();
-        if (isset($this->model_id)) {
-            $this->model = $this->model_class::find($this->model_id);
+        if (!is_null($model_id)) {
+            $this->model = $this->model_class::find($model_id);
             if (is_null($this->model)) {
                 abort(404);
             }
         }
-        $this->loadRelations();
     }
 
     public function render() {
@@ -53,15 +49,17 @@ abstract class CrudPage extends Page {
         };
     }
 
-    protected function loadRelations() {
-        foreach($this->other_data as $other) {
-            $other::all()->each(fn($val) => $data[$other::class][$other->id] = $other);
-        }
-    }
+//    protected function loadRelations() {
+//        foreach($this->other_data as $other) {
+//            $other::all()->each(fn($val) => $data[$other::class][$other->id] = $other);
+//        }
+//    }
 
     public function submit() {
         $this->isAllowedTo($this->action);
-        $this->validate();
+        $this->validate(
+            $this->form()->getValidationRules()
+        );
         $this->model->save();
 
         session()->flash('notification', __('drystack::drystack.notification.data.saved'));
